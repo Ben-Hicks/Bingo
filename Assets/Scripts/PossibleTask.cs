@@ -30,6 +30,7 @@ public class PossibleTask {
 
     public void SetRawDescription(string _sRawDescription) {
         sRawDescription = _sRawDescription;
+        Debug.LogFormat("Description is set to: {0}", sRawDescription);
     }
 
     public void SetMinValue(int _nMinValue) {
