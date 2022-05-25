@@ -1,0 +1,55 @@
+#Botw test tasks
+
+#Big Story Tasks
+Desc:Darkbeast Ganon,Diff:100
+Desc:{0} Divine Beasts,Value:1-4,Diff:30-120,Max-count:2
+Desc:Vah Medoh,Diff:35
+Desc:Vah Rudania,Diff:75
+Desc:Vah Ruta,Diff:40
+Desc:Vah Naboris,Diff:65
+
+#Weapon Collections
+Desc:Any Royal Weapon,Diff:25
+
+#Collectables
+Desc:{0} Diamonds,Value:1-4,Diff:10-60
+Desc:{0} Rubies,Value:1-4,Diff:15-40
+Desc:{0} Sapphires,Value:1-4,Diff:15-40
+Desc:{0} Topaz,Value:1-4,Diff:15-40
+Desc:{0} of each Gemstone,Value:1-2,Diff:35-50
+
+#Big Monsters
+Desc:{0} Boss Monsters,Value:1-12,Diff:10-70
+Desc:{0} Hinox,Value:1-4,Diff:20-60
+Desc:{0} Molduga,Value:1-2,Diff:40-55
+Desc:{0} Talos,Value:1-4,Diff:15-40
+Desc:{0} Lynel,Value:1-4,Diff:25-75
+
+#Exploration
+Desc:{0} Towers,Value:3-14,Diff:10-95,Max-count:3,Min-delta:2
+Desc:{0} Shrines,Value:8-30,Diff:24-75,Max-count:3,Min-delta:5
+
+#Koroks
+Desc:{0} Koroks,Value:5-75,Diff:3-80,Max-count:3,Min-delta:5
+Desc:{0} Great Plateau Koroks,Value:3-18,Diff:3-45
+Desc:{0} Lake Hylia Koroks,Value:3-30,Diff:6-55
+Desc:{0} Faron Koroks,Value:3-24,Diff:8-60
+Desc:{0} Wasteland Koroks,Value:3-28,Diff:7-60
+Desc:{0} Gerudo Koroks,Value:3-16,Diff:9-50
+Desc:{0} Central Hyrule Koroks,Value:4-40,Diff:4-60
+Desc:{0} Hyrule Castle Koroks,Value:3-15,Diff:10-45
+Desc:{0} Ridgeland Koroks,Value:3-35,Diff:6-55
+Desc:{0} Tabantha Koroks,Value:3-18,Diff:7-40
+Desc:{0} Hebra Koroks,Value:3-30,Diff:10-65
+Desc:{0} Woodland Koroks,Value:3-20,Diff:7-45
+Desc:{0} Eldin Koroks,Value:3-20,Diff:10-45
+Desc:{0} Akkala Koroks,Value:3-28,Diff:8-55
+Desc:{0} Lanayru Koroks,Value:3-36,Diff:4-50
+Desc:{0} Hateno Koroks,Value:3-40,Diff:5-50
+Desc:{0} Dueling Peaks Koroks,Value:3-35,Diff:3-45
+
+
+#Memes
+Desc:Divine Beast Selfie (pacified),Diff:40
+Desc:Fall in Lava,Diff:15
+
