@@ -11,6 +11,7 @@ public class PossibleTask {
     public int nMaxDifficulty;
     public int nMaxCount;
     public int nMinDelta;
+    public float fFrequencyModifier;
 
     public bool bUsingParameter;
 
@@ -26,11 +27,11 @@ public class PossibleTask {
         nMaxDifficulty = -1;
         nMaxCount = 1;
         nMinDelta = 1;
+        fFrequencyModifier = 1f;
     }
 
     public void SetRawDescription(string _sRawDescription) {
         sRawDescription = _sRawDescription;
-        Debug.LogFormat("Description is set to: {0}", sRawDescription);
     }
 
     public void SetMinValue(int _nMinValue) {
@@ -58,6 +59,10 @@ public class PossibleTask {
     }
     public void SetMinDelta(int _nMinDelta) {
         nMinDelta = _nMinDelta;
+    }
+
+    public void SetFrequencyModifier(float _fFrequencyModifier) {
+        fFrequencyModifier = _fFrequencyModifier;
     }
 
     public bool IsSufficientlyFilledOut() {
@@ -96,11 +101,11 @@ public class PossibleTask {
 
     public override string ToString() {
         if(bUsingParameter) {
-            return string.Format("<Desc:{0},Value:{1}-{2},Diff:{3}-{4},Max-count:{5},Min-delta:{6}>",
-                sRawDescription, nMinValue, nMaxValue, nMinDifficulty, nMaxDifficulty, nMaxCount, nMinDelta);
+            return string.Format("<Desc:{0},Value:{1}-{2},Diff:{3}-{4},Max-count:{5},Min-delta:{6},Freq:{7}>",
+                sRawDescription, nMinValue, nMaxValue, nMinDifficulty, nMaxDifficulty, nMaxCount, nMinDelta, fFrequencyModifier);
         } else {
-            return string.Format("<Desc:{0},Diff:{1},Max-count:{2},Min-delta:{3}>",
-                sRawDescription, nMinDifficulty, nMaxCount, nMinDelta);
+            return string.Format("<Desc:{0},Diff:{1},Max-count:{2},Min-delta:{3},Freq:{4}>",
+                sRawDescription, nMinDifficulty, nMaxCount, nMinDelta, fFrequencyModifier);
         }
     }
 
