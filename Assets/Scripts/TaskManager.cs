@@ -2,21 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Linq;
 
 public class TaskManager : MonoBehaviour {
 
     public const string sLogFileDir = "Tasks/";
     public string sLogFileName = "botw.tasks";
 
+    public List<GameObject> lstGoTasks;
     public List<Task> lstBingoBoard;
     public GameObject goBingoBoard;
 
     public GameObject pfTask;
     public GameObject pfLine;
-
-    public int nBoardSize = 5;
-    public float fPercentDifficultyVariability = 12.5f; //The maximum difference away from average difficulty a task can be
-    public int nLinesNeeded = 3;
 
     public float fHorizontalSpacing = 30f;
     public float fVerticalSpacing = 30f;
@@ -27,7 +25,52 @@ public class TaskManager : MonoBehaviour {
     public int iPossibleTaskIndex; //How far through our list of Possible Task Indices we've progressed through
     public Dictionary<int, List<Task>> dictUsedTasks; //Maps indices of lstAllPossibleTasks to the instances that it has been used so far 
 
-    public int nBoardDifficulty;
+    public GenerationParam pBoardSize;
+    public GenerationParam pBoardDifficulty;
+    public GenerationParam pPercentDifficultyVariability;
+    public GenerationParam pLinesNeeded;
+
+
+
+    public List<Line> lstLines;
+
+    public int GetBoardSize() {
+        return Mathf.CeilToInt(pBoardSize.fValue);
+    }
+
+    public Task GetTask(int i, int j) {
+        return lstBingoBoard[i * GetBoardSize() + j];
+    }
+
+    public void InitLines() {
+        lstLines = new List<Line>();
+
+        List<Task> lstPosDiag = new List<Task>();
+        List<Task> lstNegDiag = new List<Task>();
+
+        //Create a Line for each Row and Column
+        for(int i = 0; i < GetBoardSize(); i++) {
+
+            List<Task> lstLineRow = new List<Task>();
+            List<Task> lstLineColumn = new List<Task>();
+
+            for(int j = 0; j < GetBoardSize(); j++) {
+                lstLineRow.Add(GetTask(i, j));
+                lstLineColumn.Add(GetTask(j, i));
+            }
+
+            lstLines.Add(new Line(lstLineRow));
+            lstLines.Add(new Line(lstLineColumn));
+
+            //Add an entry for the diagonals
+            lstPosDiag.Add(GetTask(i, i));
+            lstNegDiag.Add(GetTask(i, GetBoardSize() - i - 1));
+        }
+
+        lstLines.Add(new Line(lstPosDiag));
+        lstLines.Add(new Line(lstNegDiag));
+
+    }
 
     public void InitBingoBoard(int nSeed) {
 
@@ -40,13 +83,15 @@ public class TaskManager : MonoBehaviour {
 
         dictUsedTasks = new Dictionary<int, List<Task>>();
 
-        lstBingoBoard = new List<Task>(nBoardSize * nBoardSize);
+        lstGoTasks = new List<GameObject>(GetBoardSize() * GetBoardSize());
+        lstBingoBoard = new List<Task>(GetBoardSize() * GetBoardSize());
 
-        for(int i = 0; i < nBoardSize; i++) {
-            for(int j = 0; j < nBoardSize; j++) {
+        for(int i = 0; i < GetBoardSize(); i++) {
+            for(int j = 0; j < GetBoardSize(); j++) {
 
                 GameObject goNewTask = Instantiate(pfTask, goBingoBoard.transform);
-                goNewTask.transform.localPosition = new Vector3((j - nBoardSize / 2) * fHorizontalSpacing, (i - nBoardSize / 2) * fVerticalSpacing, 0f);
+                goNewTask.transform.localPosition = new Vector3((j - GetBoardSize() / 2) * fHorizontalSpacing, (i - GetBoardSize() / 2) * fVerticalSpacing, 0f);
+                lstGoTasks.Add(goNewTask);
 
                 Task newTask = goNewTask.GetComponent<Task>();
 
@@ -77,6 +122,8 @@ public class TaskManager : MonoBehaviour {
             }
         }
 
+        InitLines();
+        CleanupBoard();
 
     }
 
@@ -158,6 +205,16 @@ public class TaskManager : MonoBehaviour {
 
                     newPossibleTask.SetMinDelta(int.Parse(arsSplitEntry[1]));
                     break;
+
+                case "Freq":
+
+                    newPossibleTask.SetFrequencyModifier(float.Parse(arsSplitEntry[1]));
+                    break;
+
+                default:
+
+                    Debug.LogErrorFormat("Unrecognized entry: {0}", arsSplitEntry[0]);
+                    break;
                 }
 
 
@@ -178,17 +235,17 @@ public class TaskManager : MonoBehaviour {
     public void PrintAllPossibleTasks() {
 
         foreach(PossibleTask pt in lstAllPossibleTasks) {
-            Debug.Log(pt);
+            //Debug.Log(pt);
         }
 
     }
 
     public float GetMaxUsableDifficulty() {
-        return nBoardDifficulty * (1 + fPercentDifficultyVariability);
+        return pBoardDifficulty.fValue * (1 + pPercentDifficultyVariability.fValue);
     }
 
     public float GetMinUsableDifficulty() {
-        return nBoardDifficulty * (1 - fPercentDifficultyVariability);
+        return pBoardDifficulty.fValue * (1 - pPercentDifficultyVariability.fValue);
     }
 
     public bool AttemptFillOutTask(Task task) {
@@ -218,7 +275,7 @@ public class TaskManager : MonoBehaviour {
             List<Task> lstDuplicateTask = dictUsedTasks[lstPossibleTaskIndicesToUse[iPossibleTaskIndex]];
 
             //Currently just rejecting if an instance of this already exists
-            Debug.LogFormat("Failed too many times to fill out {0} - Skipping...", possibleTaskCur);
+            //Debug.LogFormat("Failed too many times to fill out {0} - Skipping...", possibleTaskCur);
             return false;
 
         } else {
@@ -246,43 +303,88 @@ public class TaskManager : MonoBehaviour {
         return true;
     }
 
+    class Descending : IComparer<float> {
+
+        public int Compare(float f1, float f2) {
+            if(f1 > f2) return 1;
+            else if(f1 < f2) return -1;
+            else return 0;
+        }
+    }
 
     //Generate a list of all the indices we can select our tasks from (in a random order and
     //   with duplicates if the task allows them)
     public void InitializeTaskIndices() {
 
-        lstPossibleTaskIndicesToUse = new List<int>();
+        //Make a list of pairs of biased randomized priorities and associated indices
+        List<KeyValuePair<float, int>> lstPriorityPairs = new List<KeyValuePair<float, int>>();
 
         for(int i = 0; i < lstAllPossibleTasks.Count; i++) {
             for(int j = 0; j < lstAllPossibleTasks[i].nMaxCount; j++) {
-                lstPossibleTaskIndicesToUse.Add(i);
+                lstPriorityPairs.Add(new KeyValuePair<float, int>(lstAllPossibleTasks[i].fFrequencyModifier * Random.Range(0f, 1f), i));
+
             }
         }
 
-        //Now scramble the list of indices randomly (swap each element with a random one later(ish) in the list
-        for(int i = 0; i < lstPossibleTaskIndicesToUse.Count; ++i) {
-            int j = Random.Range(i, lstPossibleTaskIndicesToUse.Count);
-            var tmp = lstPossibleTaskIndicesToUse[i];
-            lstPossibleTaskIndicesToUse[i] = lstPossibleTaskIndicesToUse[j];
-            lstPossibleTaskIndicesToUse[j] = tmp;
-        }
+        //Now sort the list to be used for Task selection, and discard the randomized priority
+        lstPossibleTaskIndicesToUse = lstPriorityPairs.OrderByDescending(kvp => kvp.Key).Select(kvp => kvp.Value).ToList();
 
     }
 
+    public Line GetHardestLine() {
+
+        float fCurMax = lstLines[0].GetTotalDifficulty();
+        Line lineCurBest = lstLines[0];
+
+        foreach(Line l in lstLines) {
+            float fCurDiff = l.GetTotalDifficulty();
+            if(fCurDiff > fCurMax) {
+                lineCurBest = l;
+                fCurMax = fCurDiff;
+            }
+        }
+
+        return lineCurBest;
+    }
+
+    public Line GetEasiestLine() {
+
+        float fCurMin = lstLines[0].GetTotalDifficulty();
+        Line lineCurBest = lstLines[0];
+
+        foreach(Line l in lstLines) {
+            float fCurDiff = l.GetTotalDifficulty();
+            if(fCurDiff < fCurMin) {
+                lineCurBest = l;
+                fCurMin = fCurDiff;
+            }
+        }
+
+        return lineCurBest;
+    }
 
     public void CleanupBoard() {
         //Check the difficulty of each line to ensure they are approximately equal
+
+        Debug.LogFormat("Difficulty Range: {0} - {1}", GetEasiestLine().GetTotalDifficulty(), GetHardestLine().GetTotalDifficulty());
 
     }
 
     public void DestroyBoard() {
 
+        for(int i = 0; i < lstGoTasks.Count; i++) {
+            Destroy(lstGoTasks[i]);
+        }
+
+        lstGoTasks = null;
     }
 
     public void GenerateRandomBoard() {
 
         DestroyBoard();
         InitBingoBoard(Random.Range(0, 10000));
+
+
 
     }
 
