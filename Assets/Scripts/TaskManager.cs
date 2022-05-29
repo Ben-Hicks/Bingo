@@ -250,6 +250,16 @@ public class TaskManager : MonoBehaviour {
         return pBoardDifficulty.fValue * (1 - pPercentDifficultyVariability.fValue);
     }
 
+    public float GetRandomDifficultyInRange(PossibleTask possibleTask) {
+        return Random.Range(Mathf.Max(possibleTask.nMinDifficulty, GetMinUsableDifficulty()),
+            Mathf.Min(possibleTask.nMaxDifficulty, GetMaxUsableDifficulty()));
+    }
+
+    public int DifficultyToValue(PossibleTask possibleTask, float fDesiredDifficulty) {
+        return Mathf.CeilToInt(Mathf.Lerp(possibleTask.nMinValue, possibleTask.nMaxValue,
+                Mathf.InverseLerp(possibleTask.nMinDifficulty, possibleTask.nMaxDifficulty, fDesiredDifficulty)));
+    }
+
     public bool AttemptFillOutTask(Task task) {
 
         //Get the next index we're set to use, and find the PossibleTask it refers to
@@ -271,33 +281,69 @@ public class TaskManager : MonoBehaviour {
             return false;
         }
 
+
+        int nValueToSet = 0;
+
         //Look up the other instances of this PossibleTask that have already been used
         if(dictUsedTasks.ContainsKey(lstPossibleTaskIndicesToUse[iPossibleTaskIndex]) == true) {
             //Fetch the list of prior tasks that are already using this PossibleTask
             List<Task> lstDuplicateTask = dictUsedTasks[lstPossibleTaskIndicesToUse[iPossibleTaskIndex]];
 
-            //Currently just rejecting if an instance of this already exists
-            //Debug.LogFormat("Failed too many times to fill out {0} - Skipping...", possibleTaskCur);
-            Debug.Log("Add this behaviour");
-            return false;
+            Debug.LogFormat("{0} has {1} duplicates already", possibleTaskCur, lstDuplicateTask.Count);
+
+            int nAttempts = 10;
+            while(nAttempts-- > 0) {
+
+                //For each attempt, generate a random difficulty
+                float fDesiredDifficulty = GetRandomDifficultyInRange(possibleTaskCur);
+
+                //Convert it into a parameter value of that difficulty
+                nValueToSet = DifficultyToValue(possibleTaskCur, fDesiredDifficulty);
+
+                bool bFail = false;
+
+                //Now loop through all of the existing Tasks that use the same PossibleTask and ensure we're not too close in value to any of them
+                for(int i = 0; i < lstDuplicateTask.Count; i++) {
+                    Debug.LogFormat("Is new value {0} too close to existing duplicate value {1}?: {2}", nValueToSet, lstDuplicateTask[i].nParameterValue,
+                        Mathf.Abs(nValueToSet - lstDuplicateTask[i].nParameterValue) < possibleTaskCur.nMinDelta);
+                    if(Mathf.Abs(nValueToSet - lstDuplicateTask[i].nParameterValue) < possibleTaskCur.nMinDelta) {
+                        bFail = true;
+                        break;
+                    }
+                }
+
+                //If we make it to this point and we didn't fail, then we successfully found a duplicate parameter value we can use
+                if(bFail == false) {
+                    break;
+                }
+                //If we encountered a too-close duplicate, then continue on to the next attempt
+
+            }
+
+            //After exiting the loop, check if we ran out of attempts or not
+            if(nAttempts <= 0) {
+                Debug.LogFormat("Failed too many times to fill out {0} - Skipping...", possibleTaskCur);
+                return false;
+            } else {
+                Debug.LogFormat("Successfully adding duplicate with value {0}", nValueToSet);
+            }
 
         } else {
             //If we didn't have an entry for this PossibleTask, then no conflicts exists and we're fine - can just generate a random value
             //  somewhere in the allowable overlap of ranges
-            task.SetTask(possibleTaskCur);
 
-            float fDesiredDifficulty = Random.Range(Mathf.Max(possibleTaskCur.nMinDifficulty, GetMinUsableDifficulty()),
-                Mathf.Min(possibleTaskCur.nMaxDifficulty, GetMaxUsableDifficulty()));
+            float fDesiredDifficulty = GetRandomDifficultyInRange(possibleTaskCur);
 
             //Convert the desired difficulty scaling into the value that would give that difficulty scaling
-            int nValue = Mathf.CeilToInt(Mathf.Lerp(possibleTaskCur.nMinValue, possibleTaskCur.nMaxValue,
-                Mathf.InverseLerp(possibleTaskCur.nMinDifficulty, possibleTaskCur.nMaxDifficulty, fDesiredDifficulty)));
-
-            task.SetParameterValue(nValue);
+            nValueToSet = DifficultyToValue(possibleTaskCur, fDesiredDifficulty);
 
             //Since this entry didn't exist in our dictionary of used tasks, then we should initialize a list and add it to the dictionary
             dictUsedTasks.Add(lstPossibleTaskIndicesToUse[iPossibleTaskIndex], new List<Task>());
         }
+
+        task.SetTask(possibleTaskCur);
+
+        task.SetParameterValue(nValueToSet);
 
         //If we've gotten to this point, then we know we passed all our validity checks and can add this task to the board -
         //   just have to make sure to record it in our dictionary of used tasks
