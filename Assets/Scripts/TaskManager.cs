@@ -454,6 +454,18 @@ public class TaskManager : MonoBehaviour {
     }
 
     public void SetSelectedPlayer(int _id) {
+
+        int nPrevSelection = nSelectedPlayer;
+
         nSelectedPlayer = _id;
+
+        Debug.LogFormat("{0} selected with previous id {1}", nSelectedPlayer, nPrevSelection);
+
+        if(nSelectedPlayer != nPrevSelection) {
+            //If we're changing the target to something different, then we'll need to change some selection status
+            lstAllPlayers[nPrevSelection].OnDeselectPlayer();
+            lstAllPlayers[nSelectedPlayer].OnSelectPlayer();
+        }
+
     }
 }

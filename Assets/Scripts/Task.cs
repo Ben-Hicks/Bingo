@@ -112,6 +112,7 @@ public class Task : MonoBehaviour {
     }
 
     public void OnClickTask() {
+
         ToggleClaimed(taskmanager.nSelectedPlayer);
     }
 
