@@ -6,6 +6,7 @@
 /[Ss]tats/
 /Assets/AssetStoreTools*
 /Assets/Photon*
+/Assets/FlexibleColorPicker*
 
 # Visual Studio 2015 cache directory
 /.vs/

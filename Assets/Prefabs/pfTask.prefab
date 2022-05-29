@@ -91,6 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3616523504137755229}
   - component: {fileID: 2361014242708243594}
+  - component: {fileID: 6169205975303488035}
   m_Layer: 5
   m_Name: pfTask
   m_TagString: Untagged
@@ -127,12 +128,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8863b1cb2f619406a816603520bce055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  taskmanager: {fileID: 0}
+  pfClaimedColour: {fileID: 5124286522880223650, guid: 2e91a2ec9d0164b68b7b4405d4f3b6c4, type: 3}
+  lstgoClaimColours: []
   nParameterValue: 0
   fDifficulty: 0
   imgBackground: {fileID: 4479749126113073087}
   txtDescription: {fileID: 6287881607938505699}
   txtDifficulty: {fileID: 1899032095}
-  lstCompletedBy: []
+  arbCompletedBy: 
+--- !u!114 &6169205975303488035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5924059928022966491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2361014242708243594}
+          m_TargetAssemblyTypeName: Task, Assembly-CSharp
+          m_MethodName: OnClickTask
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &8825005828632159529
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,6 +256,7 @@ GameObject:
   - component: {fileID: 7240838859239444357}
   - component: {fileID: 7263704951834164070}
   - component: {fileID: 4479749126113073087}
+  - component: {fileID: 3809572876141692220}
   m_Layer: 5
   m_Name: imgBackground
   m_TagString: Untagged
@@ -287,3 +321,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3809572876141692220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188867667144470122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}

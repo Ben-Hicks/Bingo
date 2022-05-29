@@ -8,6 +8,7 @@ public class TaskManager : MonoBehaviour {
 
     public const string sLogFileDir = "Tasks/";
     public string sLogFileName = "botw.tasks";
+    public List<Player> lstAllPlayers;
 
     public List<GameObject> lstGoTasks;
     public List<Task> lstBingoBoard;
@@ -30,7 +31,7 @@ public class TaskManager : MonoBehaviour {
     public GenerationParam pPercentDifficultyVariability;
     public GenerationParam pLinesNeeded;
 
-
+    public int nSelectedPlayer;
 
     public List<Line> lstLines;
 
@@ -94,6 +95,7 @@ public class TaskManager : MonoBehaviour {
                 lstGoTasks.Add(goNewTask);
 
                 Task newTask = goNewTask.GetComponent<Task>();
+                newTask.Init(this);
 
                 //Scan through all the available tasks to be used until we find one that works
                 while(iPossibleTaskIndex < lstPossibleTaskIndicesToUse.Count) {
@@ -276,6 +278,7 @@ public class TaskManager : MonoBehaviour {
 
             //Currently just rejecting if an instance of this already exists
             //Debug.LogFormat("Failed too many times to fill out {0} - Skipping...", possibleTaskCur);
+            Debug.Log("Add this behaviour");
             return false;
 
         } else {
@@ -402,5 +405,9 @@ public class TaskManager : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
+    }
+
+    public void SetSelectedPlayer(int _id) {
+        nSelectedPlayer = _id;
     }
 }

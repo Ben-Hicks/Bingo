@@ -24,5 +24,9 @@ public class Line {
         return fSum;
     }
 
+    public override string ToString() {
+        return string.Format("{0} - {1}", lstTasks[0], lstTasks[lstTasks.Count - 1]);
+    }
+
 
 }
