@@ -10,7 +10,6 @@ public class TaskManager : MonoBehaviour {
     public string sLogFileName = "botw.tasks";
     public List<Player> lstAllPlayers;
 
-    public List<GameObject> lstGoTasks;
     public List<Task> lstBingoBoard;
     public GameObject goBingoBoard;
 
@@ -73,6 +72,15 @@ public class TaskManager : MonoBehaviour {
 
     }
 
+    public void CheckIfNoMoreTasks() {
+        if(iPossibleTaskIndex >= lstPossibleTaskIndicesToUse.Count) {
+            //If we scanned through the whole list and couldn't finish making a board, panic and quit
+            Debug.LogError("Failed to generate a random card at this difficulty!  I guess I'll die now...");
+            //TODO - make this a little friendlier
+            Application.Quit();
+        }
+    }
+
     public void InitBingoBoard(int nSeed) {
 
         Random.InitState(nSeed);
@@ -84,40 +92,32 @@ public class TaskManager : MonoBehaviour {
 
         dictUsedTasks = new Dictionary<int, List<Task>>();
 
-        lstGoTasks = new List<GameObject>(GetBoardSize() * GetBoardSize());
         lstBingoBoard = new List<Task>(GetBoardSize() * GetBoardSize());
 
         for(int i = 0; i < GetBoardSize(); i++) {
             for(int j = 0; j < GetBoardSize(); j++) {
 
+                CheckIfNoMoreTasks();
+
                 GameObject goNewTask = Instantiate(pfTask, goBingoBoard.transform);
                 goNewTask.transform.localPosition = new Vector3((j - GetBoardSize() / 2) * fHorizontalSpacing, (i - GetBoardSize() / 2) * fVerticalSpacing, 0f);
-                lstGoTasks.Add(goNewTask);
+
 
                 Task newTask = goNewTask.GetComponent<Task>();
                 newTask.Init(this);
 
                 //Scan through all the available tasks to be used until we find one that works
                 while(iPossibleTaskIndex < lstPossibleTaskIndicesToUse.Count) {
-                    if(AttemptFillOutTask(newTask) == false) {
-                        //If we weren't successful in filling out this task, increment which task we're trying and try again
-                        iPossibleTaskIndex++;
+                    bool bSuccess = AttemptFillOutTask(newTask);
 
-                        if(iPossibleTaskIndex == lstPossibleTaskIndicesToUse.Count) {
-                            //If we scanned through the whole list and couldn't finish making a board, panic and quit
-                            Debug.LogError("Failed to generate a random card at this difficulty!  I guess I'll die now...");
-                            Debug.LogErrorFormat("Failed at i={0}, j={1}, iPossibleTaskIndex={2}, lstPossibleTaskIndicesToUse.Count={3}",
-                                i, j, iPossibleTaskIndex, lstPossibleTaskIndicesToUse.Count);
-                            Application.Quit();
-                        }
-                    } else {
+                    iPossibleTaskIndex++;
+
+                    if(bSuccess) {
                         //If we're successful, then we can break and end our job for this task
-                        iPossibleTaskIndex++;
                         break;
                     }
+
                 }
-
-
 
                 lstBingoBoard.Add(newTask);
 
@@ -125,7 +125,7 @@ public class TaskManager : MonoBehaviour {
         }
 
         InitLines();
-        CleanupBoard();
+        //CleanupBoard();
 
     }
 
@@ -412,7 +412,29 @@ public class TaskManager : MonoBehaviour {
         return lineCurBest;
     }
 
+    public void SwapTasks(Task t1, Task t2) {
+
+        PossibleTask ptSwap = t1.taskBase;
+        int nValueSwap = t1.nParameterValue;
+
+        t1.SetTask(t2.taskBase);
+        t1.SetParameterValue(t2.nParameterValue);
+
+        t2.SetTask(ptSwap);
+        t2.SetParameterValue(nValueSwap);
+
+    }
+
     public void CleanupBoard() {
+
+        //Start with randommly scrambling the tasks so there's no positional bias of tasks
+        for(int i = 0; i < lstBingoBoard.Count - 1; i++) {
+            //Randomly select a later index to swap to position i
+            int j = Random.Range(i, lstBingoBoard.Count);
+
+            SwapTasks(lstBingoBoard[i], lstBingoBoard[j]);
+        }
+
         //Check the difficulty of each line to ensure they are approximately equal
 
         Debug.LogFormat("Difficulty Range: {0} - {1}", GetEasiestLine().GetTotalDifficulty(), GetHardestLine().GetTotalDifficulty());
@@ -421,11 +443,21 @@ public class TaskManager : MonoBehaviour {
 
     public void DestroyBoard() {
 
-        for(int i = 0; i < lstGoTasks.Count; i++) {
-            Destroy(lstGoTasks[i]);
+        for(int i = 0; i < lstBingoBoard.Count; i++) {
+
+            //Unclaim all claims players have over this task
+            for(int j = 0; j < lstBingoBoard[i].arbCompletedBy.Length; j++) {
+                if(lstBingoBoard[i].arbCompletedBy[j]) {
+
+                    lstBingoBoard[i].Unclaim(j);
+
+                }
+            }
+
+            //Destroy the associated gameobject with this task
+            Destroy(lstBingoBoard[i].gameObject);
         }
 
-        lstGoTasks = null;
     }
 
     public void GenerateRandomBoard() {
