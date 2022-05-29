@@ -24,6 +24,8 @@ public class Player : MonoBehaviour {
     public Text txtTasksClaimed;
     public Text txtLinesCompleted;
 
+    public Image imgSelected;
+
     public void OnColourChange() {
         if(colClaimed != colourpicker.color) {
             colClaimed = colourpicker.color;
@@ -114,5 +116,15 @@ public class Player : MonoBehaviour {
         lstLinesCompleted.Remove(line);
 
         UpdateVisualLinesCompleted();
+    }
+
+    public void OnSelectPlayer() {
+        Debug.LogFormat("Selecting {0}", id);
+        imgSelected.enabled = true;
+    }
+
+    public void OnDeselectPlayer() {
+        Debug.LogFormat("Unselecting {0}", id);
+        imgSelected.enabled = false;
     }
 }
