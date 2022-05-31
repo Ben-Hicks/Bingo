@@ -26,12 +26,23 @@ public class Player : MonoBehaviour {
 
     public Image imgSelected;
 
+    public void SetColour(Color _colClaimed) {
+        colClaimed = _colClaimed;
+
+        colourpicker.SetColor(colClaimed);
+    }
+
     public void OnColourChange() {
         if(colClaimed != colourpicker.color) {
             colClaimed = colourpicker.color;
             bColourChanged = true;
         }
         SelectPlayer();
+    }
+
+    public void SetName(string _sName) {
+        sName = _sName;
+        inputName.SetTextWithoutNotify(sName);
     }
 
     public void OnNameChange() {
@@ -75,7 +86,6 @@ public class Player : MonoBehaviour {
 
     public void SelectPlayer() {
         taskmanager.SetSelectedPlayer(id);
-        Debug.LogFormat("Selecting Player {0}", id);
     }
 
     public void ReactClaimedTask(Task task) {
@@ -119,12 +129,12 @@ public class Player : MonoBehaviour {
     }
 
     public void OnSelectPlayer() {
-        Debug.LogFormat("Selecting {0}", id);
+        //Debug.LogFormat("Selecting {0}", id);
         imgSelected.enabled = true;
     }
 
     public void OnDeselectPlayer() {
-        Debug.LogFormat("Unselecting {0}", id);
+        //Debug.LogFormat("Unselecting {0}", id);
         imgSelected.enabled = false;
     }
 }

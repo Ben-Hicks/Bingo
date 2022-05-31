@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using System.Linq;
 
 public class TaskManager : MonoBehaviour {
 
     public const string sLogFileDir = "Tasks/";
-    public string sLogFileName = "botw.tasks";
+    public Dropdown dropdownTaskFile;
+    public List<string> lstTaskFileOptions;
+    public string sTaskFileName;
     public List<Player> lstAllPlayers;
 
     public List<Task> lstBingoBoard;
@@ -19,6 +22,7 @@ public class TaskManager : MonoBehaviour {
     public float fHorizontalSpacing = 30f;
     public float fVerticalSpacing = 30f;
 
+    public string sLoadedTasks;
     public List<PossibleTask> lstAllPossibleTasks;
 
     public List<int> lstPossibleTaskIndicesToUse; //Keep a list of all indices of possible tasks that we can use
@@ -31,6 +35,8 @@ public class TaskManager : MonoBehaviour {
     public GenerationParam pLinesNeeded;
 
     public int nSelectedPlayer;
+
+    public int nSeed;
 
     public List<Line> lstLines;
 
@@ -86,6 +92,9 @@ public class TaskManager : MonoBehaviour {
         Random.InitState(nSeed);
         Debug.Log("Seed set to " + nSeed);
 
+        //Load in all the tasks needed for our current .tasks selection
+        LoadAllPossibleTasks();
+
         //Create a randomized list of the possible tasks we will attempt to select from
         InitializeTaskIndices();
         iPossibleTaskIndex = 0;
@@ -131,19 +140,28 @@ public class TaskManager : MonoBehaviour {
 
     public void LoadAllPossibleTasks() {
 
-        lstAllPossibleTasks = new List<PossibleTask>();
+        if(sTaskFileName == sLoadedTasks) {
+            //We already have this set of tasks loaded, so no need to do anything extra
+            Debug.Log("This task set is already loaded - no need to re-load anything");
+            return;
+        }
 
-        string sFilePath = string.Concat(sLogFileDir, sLogFileName);
+        string sFilePath = string.Format("{0}{1}.tasks", sLogFileDir, sTaskFileName);
 
         if(File.Exists(sFilePath) == false) {
             Debug.LogErrorFormat("Path to file doesn't exist: {0}", sFilePath);
             return;
         }
 
-        string[] arsLogLines = File.ReadAllLines(sFilePath);
+        //Record that this is the set of tasks that we have loaded in currently
+        sLoadedTasks = sTaskFileName;
+
+        lstAllPossibleTasks = new List<PossibleTask>();
+
+        string[] arsTaskLines = File.ReadAllLines(sFilePath);
 
         //For each line in the tasks file, create a PossibleTask
-        foreach(string sLine in arsLogLines) {
+        foreach(string sLine in arsTaskLines) {
 
             //If the line is empty or starts with a comment, then skip the line
             if(sLine == "" || sLine[0] == '#') continue;
@@ -289,7 +307,7 @@ public class TaskManager : MonoBehaviour {
             //Fetch the list of prior tasks that are already using this PossibleTask
             List<Task> lstDuplicateTask = dictUsedTasks[lstPossibleTaskIndicesToUse[iPossibleTaskIndex]];
 
-            Debug.LogFormat("{0} has {1} duplicates already", possibleTaskCur, lstDuplicateTask.Count);
+            //Debug.LogFormat("{0} has {1} duplicates already", possibleTaskCur, lstDuplicateTask.Count);
 
             int nAttempts = 10;
             while(nAttempts-- > 0) {
@@ -304,8 +322,8 @@ public class TaskManager : MonoBehaviour {
 
                 //Now loop through all of the existing Tasks that use the same PossibleTask and ensure we're not too close in value to any of them
                 for(int i = 0; i < lstDuplicateTask.Count; i++) {
-                    Debug.LogFormat("Is new value {0} too close to existing duplicate value {1}?: {2}", nValueToSet, lstDuplicateTask[i].nParameterValue,
-                        Mathf.Abs(nValueToSet - lstDuplicateTask[i].nParameterValue) < possibleTaskCur.nMinDelta);
+                    //Debug.LogFormat("Is new value {0} too close to existing duplicate value {1}?: {2}", nValueToSet, lstDuplicateTask[i].nParameterValue,
+                    //Mathf.Abs(nValueToSet - lstDuplicateTask[i].nParameterValue) < possibleTaskCur.nMinDelta);
                     if(Mathf.Abs(nValueToSet - lstDuplicateTask[i].nParameterValue) < possibleTaskCur.nMinDelta) {
                         bFail = true;
                         break;
@@ -322,10 +340,10 @@ public class TaskManager : MonoBehaviour {
 
             //After exiting the loop, check if we ran out of attempts or not
             if(nAttempts <= 0) {
-                Debug.LogFormat("Failed too many times to fill out {0} - Skipping...", possibleTaskCur);
+                //Debug.LogFormat("Failed too many times to fill out {0} - Skipping...", possibleTaskCur);
                 return false;
             } else {
-                Debug.LogFormat("Successfully adding duplicate with value {0}", nValueToSet);
+                //Debug.LogFormat("Successfully adding duplicate with value {0}", nValueToSet);
             }
 
         } else {
@@ -460,10 +478,71 @@ public class TaskManager : MonoBehaviour {
 
     }
 
+
+
+    public void SetTaskFile(string _sTaskFileName) {
+        Debug.Log("Setting task file to " + _sTaskFileName);
+        sTaskFileName = _sTaskFileName;
+
+        //Update the dropdown to the corresponding entry we've set
+        for(int i = 0; i < lstTaskFileOptions.Count; i++) {
+            if(sTaskFileName == lstTaskFileOptions[i]) {
+                dropdownTaskFile.SetValueWithoutNotify(i);
+                return;
+            }
+        }
+        Debug.LogErrorFormat("Couldn't find the corresponding task file");
+    }
+
+    public void OnDropdownTaskFileChange() {
+        SetTaskFile(lstTaskFileOptions[dropdownTaskFile.value]);
+    }
+
+    public void InitTaskFileOptions() {
+
+        //Search through all the .tasks files in our Tasks Directory and add them to our list
+        lstTaskFileOptions = Directory.GetFiles(sLogFileDir, "*.tasks").Select((string sPath) => Path.GetFileNameWithoutExtension(sPath)).ToList();
+
+        //Update the dropdown to have these as our options
+        dropdownTaskFile.ClearOptions();
+
+        dropdownTaskFile.AddOptions(lstTaskFileOptions.Select((string s) => new Dropdown.OptionData(s)).ToList());
+
+        dropdownTaskFile.SetValueWithoutNotify(0);
+        OnDropdownTaskFileChange();
+    }
+
+    public void SetSeed(int _nSeed) {
+        nSeed = _nSeed;
+    }
+
+    public void SetSize(int _nBoardSize) {
+        pBoardSize.SetValue(_nBoardSize);
+    }
+
+    public void SetDifficulty(float _fDifficulty) {
+        pBoardDifficulty.SetValue(_fDifficulty);
+    }
+
+    public void SetDifficultyVariability(float _fDifficultyVariability) {
+        pPercentDifficultyVariability.SetValue(_fDifficultyVariability);
+    }
+
+    public void SetLinesNeeded(int _nLinesNeeded) {
+        pLinesNeeded.SetValue(_nLinesNeeded);
+    }
+
+    public void GenerateBoard() {
+        DestroyBoard();
+        InitBingoBoard(nSeed);
+    }
+
     public void GenerateRandomBoard() {
 
         DestroyBoard();
-        InitBingoBoard(Random.Range(0, 10000));
+
+        SetSeed(Random.Range(0, 1000000));
+        InitBingoBoard(nSeed);
 
 
 
@@ -472,9 +551,12 @@ public class TaskManager : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
 
-        LoadAllPossibleTasks();
+        //Initialize options for the various tasks files we have
+        InitTaskFileOptions();
 
-        GenerateRandomBoard();
+        //LoadAllPossibleTasks();
+
+        //GenerateRandomBoard();
 
     }
 
@@ -490,8 +572,6 @@ public class TaskManager : MonoBehaviour {
         int nPrevSelection = nSelectedPlayer;
 
         nSelectedPlayer = _id;
-
-        Debug.LogFormat("{0} selected with previous id {1}", nSelectedPlayer, nPrevSelection);
 
         if(nSelectedPlayer != nPrevSelection) {
             //If we're changing the target to something different, then we'll need to change some selection status

@@ -17,6 +17,10 @@ public class GenerationParam : MonoBehaviour {
 
     public bool bInt;
 
+    public void SetValue(float _fValue) {
+        fValue = _fValue;
+        UpdateSlider();
+    }
 
     public void UpdateSlider() {
 
