@@ -189,7 +189,6 @@ public class TaskManager : MonoBehaviour {
                     Debug.LogErrorFormat("Error! {0} is a malformed entry", sEntry);
                 }
 
-
                 switch(arsSplitEntry[0]) {
                 case "Desc":
                     newPossibleTask.SetRawDescription(arsSplitEntry[1]);
@@ -229,6 +228,11 @@ public class TaskManager : MonoBehaviour {
                 case "Freq":
 
                     newPossibleTask.SetFrequencyModifier(float.Parse(arsSplitEntry[1]));
+                    break;
+
+                case "URL":
+
+                    newPossibleTask.SetURL(arsSplitEntry[1]);
                     break;
 
                 default:
