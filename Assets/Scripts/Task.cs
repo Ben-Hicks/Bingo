@@ -113,7 +113,21 @@ public class Task : MonoBehaviour {
 
     public void OnClickTask() {
 
-        ToggleClaimed(taskmanager.nSelectedPlayer);
+        //Check if the ctrl key is held down - if so, open the url, otherwise claim the task
+        if(Input.GetKey(KeyCode.LeftControl)) {
+            OpenURL();
+        } else {
+            ToggleClaimed(taskmanager.nSelectedPlayer);
+        }
+
+    }
+
+    public void OpenURL() {
+
+        if(taskBase.sURL == "") return;
+
+        //If we have a URL, we can open it in a browser
+        Application.OpenURL(string.Format("https://www.{0}", taskBase.sURL));
     }
 
     public void ToggleClaimed(int id) {
@@ -165,4 +179,6 @@ public class Task : MonoBehaviour {
             ToggleClaimed(4);
         }
     }
+
+
 }

@@ -12,6 +12,7 @@ public class PossibleTask {
     public int nMaxCount;
     public int nMinDelta;
     public float fFrequencyModifier;
+    public string sURL;
 
     public bool bUsingParameter;
 
@@ -28,6 +29,7 @@ public class PossibleTask {
         nMaxCount = 1;
         nMinDelta = 1;
         fFrequencyModifier = 1f;
+        sURL = "";
     }
 
     public void SetRawDescription(string _sRawDescription) {
@@ -63,6 +65,10 @@ public class PossibleTask {
 
     public void SetFrequencyModifier(float _fFrequencyModifier) {
         fFrequencyModifier = _fFrequencyModifier;
+    }
+
+    public void SetURL(string _sURL) {
+        sURL = _sURL;
     }
 
     public bool IsSufficientlyFilledOut() {
