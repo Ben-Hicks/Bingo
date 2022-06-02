@@ -18,6 +18,8 @@ public class Task : MonoBehaviour {
     public Text txtDescription;
     public Text txtDifficulty;
 
+    public Flag flag;
+
     public bool[] arbCompletedBy;
 
     public void SetTask(PossibleTask _taskBase) {
@@ -120,6 +122,17 @@ public class Task : MonoBehaviour {
             ToggleClaimed(taskmanager.nSelectedPlayer);
         }
 
+    }
+
+
+    public void OnStartHover() {
+        Debug.LogFormat("Start hover {0}", taskBase.sRawDescription);
+        flag.SetVisible();
+    }
+
+    public void OnStopHover() {
+        Debug.LogFormat("End Hover {0}", taskBase.sRawDescription);
+        flag.UnsetVisible();
     }
 
     public void OpenURL() {
