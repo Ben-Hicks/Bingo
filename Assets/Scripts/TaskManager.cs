@@ -33,10 +33,11 @@ public class TaskManager : MonoBehaviour {
     public GenerationParam pBoardDifficulty;
     public GenerationParam pPercentDifficultyVariability;
     public GenerationParam pLinesNeeded;
+    public InputField inputSeed;
+    public int nSeed;
 
     public int nSelectedPlayer;
 
-    public int nSeed;
 
     public List<Line> lstLines;
 
@@ -518,6 +519,11 @@ public class TaskManager : MonoBehaviour {
 
     public void SetSeed(int _nSeed) {
         nSeed = _nSeed;
+        inputSeed.SetTextWithoutNotify(nSeed.ToString());
+    }
+
+    public void OnSeedChange() {
+        SetSeed(int.Parse(inputSeed.text));
     }
 
     public void SetSize(int _nBoardSize) {
@@ -538,18 +544,13 @@ public class TaskManager : MonoBehaviour {
 
     public void GenerateBoard() {
         DestroyBoard();
+
+        if(nSeed == 0) {
+            //If we haven't set a seed, then just fill in a random one
+            SetSeed(Random.Range(0, 1000000));
+        }
+
         InitBingoBoard(nSeed);
-    }
-
-    public void GenerateRandomBoard() {
-
-        DestroyBoard();
-
-        SetSeed(Random.Range(0, 1000000));
-        InitBingoBoard(nSeed);
-
-
-
     }
 
     // Start is called before the first frame update
