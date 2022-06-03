@@ -57,6 +57,8 @@ public class SaveManager : MonoBehaviour {
 
     public void LoadFromFile() {
 
+        int nSelecting = taskmanager.nSelectedPlayer;
+
         string sSaveFilePath = string.Format("{0}{1}.bingo", sSaveFileDir, inputRoomName.text);
 
         if(File.Exists(sSaveFilePath) == false) {
@@ -131,6 +133,7 @@ public class SaveManager : MonoBehaviour {
             }
         }
 
+        taskmanager.SetSelectedPlayer(nSelecting);
     }
 
 }

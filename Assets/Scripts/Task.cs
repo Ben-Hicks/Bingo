@@ -56,12 +56,16 @@ public class Task : MonoBehaviour {
         UpdateVisualDifficulty();
     }
 
+    public string GetFilledDescription() {
+        return string.Format(taskBase.sRawDescription, nParameterValue);
+    }
+
     public void UpdateVisualDescription() {
 
         string sDescription = "";
 
         if(taskBase.bUsingParameter) {
-            sDescription = string.Format(taskBase.sRawDescription, nParameterValue);
+            sDescription = GetFilledDescription();
         } else {
             sDescription = taskBase.sRawDescription;
         }
@@ -156,55 +160,55 @@ public class Task : MonoBehaviour {
         Application.OpenURL(string.Format("https://www.{0}", taskBase.sURL));
     }
 
-    public void ToggleClaimed(int id) {
+    public void ToggleClaimed(int iPlayer) {
 
-        if(arbCompletedBy[id]) {
-            Unclaim(id);
+        if(arbCompletedBy[iPlayer]) {
+            Unclaim(iPlayer);
         } else {
-            Claim(id);
+            Claim(iPlayer);
         }
     }
 
-    public void Claim(int id) {
-        if(arbCompletedBy[id]) {
+    public void Claim(int iPlayer) {
+        if(arbCompletedBy[iPlayer]) {
             Debug.LogError("Already claimed");
             return;
         }
 
-        arbCompletedBy[id] = true;
+        arbCompletedBy[iPlayer] = true;
 
-        taskmanager.lstAllPlayers[id].ReactClaimedTask(this);
+        taskmanager.lstAllPlayers[iPlayer].ReactClaimedTask(this);
+
+        for(int i = 0; i < lstLinesIn.Count; i++) {
+            lstLinesIn[i].UpdateCompletion(iPlayer);
+        }
 
         UpdateVisualClaimed();
     }
 
-    public void Unclaim(int id) {
-        if(arbCompletedBy[id] == false) {
+    public void Unclaim(int iPlayer) {
+        if(arbCompletedBy[iPlayer] == false) {
             Debug.LogError("Not yet claimed");
             return;
         }
 
-        arbCompletedBy[id] = false;
+        arbCompletedBy[iPlayer] = false;
 
-        taskmanager.lstAllPlayers[id].ReactUnclaimedTask(this);
+        taskmanager.lstAllPlayers[iPlayer].ReactUnclaimedTask(this);
+
+        for(int i = 0; i < lstLinesIn.Count; i++) {
+            lstLinesIn[i].UpdateCompletion(iPlayer);
+        }
 
         UpdateVisualClaimed();
     }
 
     public void Update() {
 
-        if(Input.GetKeyDown(KeyCode.Alpha1)) {
-            ToggleClaimed(0);
-        } else if(Input.GetKeyDown(KeyCode.Alpha2)) {
-            ToggleClaimed(1);
-        } else if(Input.GetKeyDown(KeyCode.Alpha3)) {
-            ToggleClaimed(2);
-        } else if(Input.GetKeyDown(KeyCode.Alpha4)) {
-            ToggleClaimed(3);
-        } else if(Input.GetKeyDown(KeyCode.Alpha5)) {
-            ToggleClaimed(4);
-        }
     }
 
+    public override string ToString() {
+        return GetFilledDescription();
+    }
 
 }

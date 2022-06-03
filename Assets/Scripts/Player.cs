@@ -43,12 +43,6 @@ public class Player : MonoBehaviour {
         SelectPlayer();
     }
 
-    public void OnFinishColourChange() {
-        //When we finish editing a color, send the result over the network
-        if(NetworkSender.inst != null) {
-        }
-    }
-
     public void SetName(string _sName) {
         sName = _sName;
         inputName.SetTextWithoutNotify(sName);
@@ -68,7 +62,7 @@ public class Player : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-
+        lstLinesCompleted = new List<Line>();
     }
 
     public void UpdateBoardClaimColour() {
@@ -142,7 +136,7 @@ public class Player : MonoBehaviour {
         UpdateVisualLinesCompleted();
     }
 
-    public void ReactUnclaimedLine(Line line) {
+    public void ReactUncompletedLine(Line line) {
 
         if(lstLinesCompleted.Contains(line) == false) {
             Debug.LogErrorFormat("{0} doesn't own {1}!", sName, line);
@@ -161,5 +155,6 @@ public class Player : MonoBehaviour {
         //Debug.LogFormat("Unselecting {0}", id);
         imgSelected.enabled = false;
     }
+
 
 }
