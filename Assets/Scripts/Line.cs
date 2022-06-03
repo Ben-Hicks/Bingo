@@ -7,10 +7,15 @@ public class Line {
 
     public List<Task> lstTasks;
 
-    public Line(List<Task> _lstTasks) {
+    public Line() {
 
-        lstTasks = _lstTasks;
+        lstTasks = new List<Task>();
 
+    }
+
+    public void AddTask(Task task) {
+        lstTasks.Add(task);
+        task.lstLinesIn.Add(this);
     }
 
     public float GetTotalDifficulty() {

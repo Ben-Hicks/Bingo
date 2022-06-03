@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Task : MonoBehaviour {
 
     public TaskManager taskmanager;
+    public int id;
 
     public GameObject pfClaimedColour;
     public List<GameObject> lstgoClaimColours;
@@ -19,8 +20,13 @@ public class Task : MonoBehaviour {
     public Text txtDifficulty;
 
     public Flag flag;
+    public List<Line> lstLinesIn = new List<Line>();
 
     public bool[] arbCompletedBy;
+
+    public void SetId(int _id) {
+        id = _id;
+    }
 
     public void SetTask(PossibleTask _taskBase) {
 
@@ -119,19 +125,26 @@ public class Task : MonoBehaviour {
         if(Input.GetKey(KeyCode.LeftControl)) {
             OpenURL();
         } else {
-            ToggleClaimed(taskmanager.nSelectedPlayer);
+
+            //If we have a NetworkMessenger spawned, then issue a network message through that
+            if(NetworkSender.inst != null) {
+                NetworkSender.inst.SendToggleTask(this, taskmanager.nSelectedPlayer);
+            } else {
+                //If we don't have a NetworkMessenger spawned, then just handle this locally
+                ToggleClaimed(taskmanager.nSelectedPlayer);
+            }
         }
 
     }
 
 
     public void OnStartHover() {
-        Debug.LogFormat("Start hover {0}", taskBase.sRawDescription);
+        //Debug.LogFormat("Start hover {0}", taskBase.sRawDescription);
         flag.SetVisible();
     }
 
     public void OnStopHover() {
-        Debug.LogFormat("End Hover {0}", taskBase.sRawDescription);
+        //Debug.LogFormat("End Hover {0}", taskBase.sRawDescription);
         flag.UnsetVisible();
     }
 

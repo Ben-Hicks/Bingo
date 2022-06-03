@@ -9,7 +9,7 @@ public class SaveManager : MonoBehaviour {
     public const string sSaveFileDir = "Saves/";
 
     public TaskManager taskmanager;
-    public InputField inputSaveFileName;
+    public InputField inputRoomName;
 
     StreamWriter swFileWriter;
 
@@ -18,17 +18,17 @@ public class SaveManager : MonoBehaviour {
         //Touch the Saves directory
         Directory.CreateDirectory(sSaveFileDir);
 
-        string sSaveFilePath = string.Format("{0}{1}.bingo", sSaveFileDir, inputSaveFileName.text);
+        string sSaveFilePath = string.Format("{0}{1}.bingo", sSaveFileDir, inputRoomName.text);
 
         //Attempt to initialize the writer
         swFileWriter = new StreamWriter(sSaveFilePath, false);
 
         swFileWriter.WriteLine(string.Format("Tasks:{0}", taskmanager.sTaskFileName));
         swFileWriter.WriteLine(string.Format("Seed:{0}", taskmanager.nSeed));
-        swFileWriter.WriteLine(string.Format("Size:{0}", taskmanager.pBoardSize.fValue));
-        swFileWriter.WriteLine(string.Format("Difficulty:{0}", taskmanager.pBoardDifficulty.fValue));
-        swFileWriter.WriteLine(string.Format("Variability:{0}", taskmanager.pPercentDifficultyVariability.fValue));
-        swFileWriter.WriteLine(string.Format("Lines:{0}", taskmanager.pLinesNeeded.fValue));
+        swFileWriter.WriteLine(string.Format("Size:{0}", taskmanager.pBoardSize.GetIntValue()));
+        swFileWriter.WriteLine(string.Format("Difficulty:{0}", taskmanager.pBoardDifficulty.GetValue()));
+        swFileWriter.WriteLine(string.Format("Variability:{0}", taskmanager.pPercentDifficultyVariability.GetValue()));
+        swFileWriter.WriteLine(string.Format("Lines:{0}", taskmanager.pLinesNeeded.GetIntValue()));
         swFileWriter.WriteLine("EndGenerationParams");
 
         for(int i = 0; i < taskmanager.lstAllPlayers.Count; i++) {
@@ -57,7 +57,7 @@ public class SaveManager : MonoBehaviour {
 
     public void LoadFromFile() {
 
-        string sSaveFilePath = string.Format("{0}{1}.bingo", sSaveFileDir, inputSaveFileName.text);
+        string sSaveFilePath = string.Format("{0}{1}.bingo", sSaveFileDir, inputRoomName.text);
 
         if(File.Exists(sSaveFilePath) == false) {
             Debug.LogErrorFormat("Path to file doesn't exist: {0}", sSaveFilePath);
@@ -85,7 +85,7 @@ public class SaveManager : MonoBehaviour {
                 break;
 
             case "Size":
-                taskmanager.SetSize(int.Parse(arsSplitLine[1]));
+                taskmanager.SetBoardSize(int.Parse(arsSplitLine[1]));
                 break;
 
             case "Difficulty":

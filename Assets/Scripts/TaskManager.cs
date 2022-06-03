@@ -7,6 +7,8 @@ using System.Linq;
 
 public class TaskManager : MonoBehaviour {
 
+    public static TaskManager inst;
+
     public const string sLogFileDir = "Tasks/";
     public Dropdown dropdownTaskFile;
     public List<string> lstTaskFileOptions;
@@ -41,8 +43,12 @@ public class TaskManager : MonoBehaviour {
 
     public List<Line> lstLines;
 
+    private void Awake() {
+        inst = this;
+    }
+
     public int GetBoardSize() {
-        return Mathf.CeilToInt(pBoardSize.fValue);
+        return pBoardSize.GetIntValue();
     }
 
     public Task GetTask(int i, int j) {
@@ -52,30 +58,30 @@ public class TaskManager : MonoBehaviour {
     public void InitLines() {
         lstLines = new List<Line>();
 
-        List<Task> lstPosDiag = new List<Task>();
-        List<Task> lstNegDiag = new List<Task>();
+        Line linePosDiag = new Line();
+        Line lineNegDiag = new Line();
 
         //Create a Line for each Row and Column
         for(int i = 0; i < GetBoardSize(); i++) {
 
-            List<Task> lstLineRow = new List<Task>();
-            List<Task> lstLineColumn = new List<Task>();
+            Line lineRow = new Line();
+            Line lineColumn = new Line();
 
             for(int j = 0; j < GetBoardSize(); j++) {
-                lstLineRow.Add(GetTask(i, j));
-                lstLineColumn.Add(GetTask(j, i));
+                lineRow.AddTask(GetTask(i, j));
+                lineColumn.AddTask(GetTask(j, i));
             }
 
-            lstLines.Add(new Line(lstLineRow));
-            lstLines.Add(new Line(lstLineColumn));
+            lstLines.Add(lineRow);
+            lstLines.Add(lineColumn);
 
             //Add an entry for the diagonals
-            lstPosDiag.Add(GetTask(i, i));
-            lstNegDiag.Add(GetTask(i, GetBoardSize() - i - 1));
+            linePosDiag.AddTask(GetTask(i, i));
+            lineNegDiag.AddTask(GetTask(i, GetBoardSize() - i - 1));
         }
 
-        lstLines.Add(new Line(lstPosDiag));
-        lstLines.Add(new Line(lstNegDiag));
+        lstLines.Add(linePosDiag);
+        lstLines.Add(lineNegDiag);
 
     }
 
@@ -115,6 +121,7 @@ public class TaskManager : MonoBehaviour {
 
                 Task newTask = goNewTask.GetComponent<Task>();
                 newTask.Init(this);
+                newTask.SetId(lstBingoBoard.Count);
 
                 //Scan through all the available tasks to be used until we find one that works
                 while(iPossibleTaskIndex < lstPossibleTaskIndicesToUse.Count) {
@@ -266,11 +273,11 @@ public class TaskManager : MonoBehaviour {
     }
 
     public float GetMaxUsableDifficulty() {
-        return pBoardDifficulty.fValue * (1 + pPercentDifficultyVariability.fValue);
+        return pBoardDifficulty.GetValue() * (1 + pPercentDifficultyVariability.GetValue());
     }
 
     public float GetMinUsableDifficulty() {
-        return pBoardDifficulty.fValue * (1 - pPercentDifficultyVariability.fValue);
+        return pBoardDifficulty.GetValue() * (1 - pPercentDifficultyVariability.GetValue());
     }
 
     public float GetRandomDifficultyInRange(PossibleTask possibleTask) {
@@ -523,10 +530,14 @@ public class TaskManager : MonoBehaviour {
     }
 
     public void OnSeedChange() {
-        SetSeed(int.Parse(inputSeed.text));
+        int nNewSeed = 0;
+        if(int.TryParse(inputSeed.text, out nNewSeed) == false) {
+            Debug.LogFormat("Failed to parse {0} as a seed", inputSeed.text);
+        }
+        SetSeed(nNewSeed);
     }
 
-    public void SetSize(int _nBoardSize) {
+    public void SetBoardSize(int _nBoardSize) {
         pBoardSize.SetValue(_nBoardSize);
     }
 
@@ -553,15 +564,28 @@ public class TaskManager : MonoBehaviour {
         InitBingoBoard(nSeed);
     }
 
+    public void OnClickGenerateBoard() {
+        if(nSeed == 0) {
+            //If we haven't set a seed, then just fill in a random one
+            SetSeed(Random.Range(0, 1000000));
+        }
+
+        //If we have a NetworkSender, then send a generation request through it
+        if(NetworkSender.inst != null) {
+            NetworkSender.inst.SendGenerateBoard(sTaskFileName, pBoardSize.GetIntValue(),
+                pBoardDifficulty.GetValue(), pPercentDifficultyVariability.GetValue(),
+                pLinesNeeded.GetIntValue(), nSeed);
+        } else {
+            //Otherwise, just generate a board locally
+            GenerateBoard();
+        }
+    }
+
     // Start is called before the first frame update
     void Start() {
 
         //Initialize options for the various tasks files we have
         InitTaskFileOptions();
-
-        //LoadAllPossibleTasks();
-
-        //GenerateRandomBoard();
 
     }
 
