@@ -40,7 +40,7 @@ public class SaveManager : MonoBehaviour {
         for(int i = 0; i < taskmanager.lstBingoBoard.Count; i++) {
             Task taskCur = taskmanager.lstBingoBoard[i];
             //Build a string that has entries for each player that has completed the task
-            string sTaskEntry = string.Format("Task:{0}:ClaimedBy", i);
+            string sTaskEntry = string.Format("Task:{0}:Flagged:{1}:ClaimedBy", i, taskCur.flag.bFlagged);
 
             for(int j = 0; j < taskCur.arbCompletedBy.Length; j++) {
                 if(taskCur.arbCompletedBy[j]) {
@@ -123,10 +123,16 @@ public class SaveManager : MonoBehaviour {
                 //Figure out which task this line is representing
                 int iTask = int.Parse(arsSplitLine[1]);
 
+                bool bFlagged = bool.Parse(arsSplitLine[3]);
+
                 //After the first three entries we'll have an variable number of entries for each player that has claimed this task
-                for(int i = 3; i < arsSplitLine.Length; i++) {
+                for(int i = 5; i < arsSplitLine.Length; i++) {
                     int idClaiming = int.Parse(arsSplitLine[i]);
                     taskmanager.lstBingoBoard[iTask].Claim(idClaiming);
+                }
+
+                if(bFlagged) {
+                    taskmanager.lstBingoBoard[iTask].flag.SetFlag();
                 }
 
                 break;
