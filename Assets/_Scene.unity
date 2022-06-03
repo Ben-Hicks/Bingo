@@ -988,6 +988,18 @@ PrefabInstance:
       propertyPath: taskmanager
       value: 
       objectReference: {fileID: 1727162625}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: startingColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: startingColor.g
+      value: 0.09174347
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: startingColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5133665050262012847, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
       propertyPath: startingColor.b
       value: 0.8301887
@@ -4305,7 +4317,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1727162625}
         m_TargetAssemblyTypeName: TaskManager, Assembly-CSharp
-        m_MethodName: GenerateBoard
+        m_MethodName: OnClickGenerateBoard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4790,6 +4802,14 @@ PrefabInstance:
       propertyPath: taskmanager
       value: 
       objectReference: {fileID: 1727162625}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: startingColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: startingColor.r
+      value: 0.17626214
+      objectReference: {fileID: 0}
     - target: {fileID: 5133665050262012847, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
       propertyPath: startingColor.g
       value: 1
@@ -6018,6 +6038,18 @@ PrefabInstance:
       propertyPath: taskmanager
       value: 
       objectReference: {fileID: 1727162625}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: startingColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: startingColor.g
+      value: 0.9194028
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: startingColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5133665050262012847, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
       propertyPath: startingColor.g
       value: 0.9538098
@@ -6135,6 +6167,18 @@ PrefabInstance:
       propertyPath: taskmanager
       value: 
       objectReference: {fileID: 1727162625}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: startingColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: startingColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: startingColor.r
+      value: 0.6426325
+      objectReference: {fileID: 0}
     - target: {fileID: 5133665050262012847, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
       propertyPath: startingColor.b
       value: 1
