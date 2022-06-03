@@ -1,0 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Photon.Pun;
+
+public class NetworkReceiver : MonoBehaviour {
+
+
+
+    [PunRPC]
+    public void ReceiveToggleTask(int iTask, int iPlayer) {
+        Debug.Log("Receieved Claim");
+        TaskManager.inst.lstBingoBoard[iTask].ToggleClaimed(iPlayer);
+    }
+
+    [PunRPC]
+    public void ReceiveColorChange(int iPlayer, float[] arCol) {
+        Debug.Log("Receiving colour change");
+        TaskManager.inst.lstAllPlayers[iPlayer].SetColour(NetworkSender.DeserializeColor(arCol));
+
+        //Manually update the colours on the board for that player
+        TaskManager.inst.lstAllPlayers[iPlayer].UpdateBoardClaimColour();
+    }
+
+    [PunRPC]
+    public void ReceiveNameChange(int iPlayer, string sName) {
+        Debug.Log("Receiving name change");
+        TaskManager.inst.lstAllPlayers[iPlayer].SetName(sName);
+    }
+
+    [PunRPC]
+    public void ReceiveGenerateBoard(string sTaskFile, int nBoardSize, float fDifficulty, float fDifficultyVariance,
+        int nLinesNeeded, int nSeed) {
+        Debug.Log("Receiving board generation");
+
+        TaskManager.inst.SetTaskFile(sTaskFile);
+        TaskManager.inst.SetBoardSize(nBoardSize);
+        TaskManager.inst.SetDifficulty(fDifficulty);
+        TaskManager.inst.SetDifficultyVariability(fDifficultyVariance);
+        TaskManager.inst.SetLinesNeeded(nLinesNeeded);
+        TaskManager.inst.SetSeed(nSeed);
+
+        TaskManager.inst.GenerateBoard();
+    }
+}

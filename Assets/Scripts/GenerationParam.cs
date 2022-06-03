@@ -22,6 +22,14 @@ public class GenerationParam : MonoBehaviour {
         UpdateSlider();
     }
 
+    public int GetIntValue() {
+        return Mathf.CeilToInt(fValue);
+    }
+
+    public float GetValue() {
+        return fValue;
+    }
+
     public void UpdateSlider() {
 
         slider.minValue = fMin;
@@ -46,6 +54,7 @@ public class GenerationParam : MonoBehaviour {
         OnSliderUpdate();
     }
 
+#if UNITY_EDITOR
     [CustomEditor(typeof(GenerationParam))]
     public class MyScriptEditor : Editor {
         public override void OnInspectorGUI() {
@@ -56,4 +65,5 @@ public class GenerationParam : MonoBehaviour {
             }
         }
     }
+#endif
 }

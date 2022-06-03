@@ -26,6 +26,7 @@ public class Player : MonoBehaviour {
 
     public Image imgSelected;
 
+
     public void SetColour(Color _colClaimed) {
         colClaimed = _colClaimed;
 
@@ -33,11 +34,19 @@ public class Player : MonoBehaviour {
     }
 
     public void OnColourChange() {
+
         if(colClaimed != colourpicker.color) {
             colClaimed = colourpicker.color;
             bColourChanged = true;
         }
+
         SelectPlayer();
+    }
+
+    public void OnFinishColourChange() {
+        //When we finish editing a color, send the result over the network
+        if(NetworkSender.inst != null) {
+        }
     }
 
     public void SetName(string _sName) {
@@ -50,9 +59,26 @@ public class Player : MonoBehaviour {
         SelectPlayer();
     }
 
+    public void OnFinishNameChange() {
+        //When we finish editing a name, send the result over the network
+        if(NetworkSender.inst != null) {
+            NetworkSender.inst.SendNameChange(this);
+        }
+    }
+
     // Start is called before the first frame update
     void Start() {
 
+    }
+
+    public void UpdateBoardClaimColour() {
+        //Go through all the Tasks we've claimed and have them update their
+        //  graphics to our new colour (only triggering periodically so we don't get spammed with colour change
+        //  events while we're making a change
+
+        for(int i = 0; i < lstTasksClaimed.Count; i++) {
+            lstTasksClaimed[i].UpdateVisualClaimed();
+        }
     }
 
     // Update is called once per frame
@@ -62,12 +88,10 @@ public class Player : MonoBehaviour {
 
         if(fCurRefreshColourTime > fREFRESHCOLOURFREQUENCY && bColourChanged) {
 
-            //Go through all the Tasks we've claimed and have them update their
-            //  graphics to our new colour (only triggering periodically so we don't get spammed with colour change
-            //  events while we're making a change
-
-            for(int i = 0; i < lstTasksClaimed.Count; i++) {
-                lstTasksClaimed[i].UpdateVisualClaimed();
+            if(NetworkSender.inst != null) {
+                NetworkSender.inst.SendColorChange(this);
+            } else {
+                UpdateBoardClaimColour();
             }
 
             fCurRefreshColourTime = 0f;
@@ -137,4 +161,5 @@ public class Player : MonoBehaviour {
         //Debug.LogFormat("Unselecting {0}", id);
         imgSelected.enabled = false;
     }
+
 }
