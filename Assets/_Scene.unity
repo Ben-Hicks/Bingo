@@ -6904,6 +6904,10 @@ PrefabInstance:
       propertyPath: taskmanager
       value: 
       objectReference: {fileID: 1727162625}
+    - target: {fileID: 3685322042933230079, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3718474494426545428, guid: 06862033e2b884d40bb63e90222d7bfd, type: 3}
       propertyPath: m_RootOrder
       value: 3

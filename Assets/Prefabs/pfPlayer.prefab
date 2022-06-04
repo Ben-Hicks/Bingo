@@ -680,6 +680,8 @@ MonoBehaviour:
   lstTasksClaimed: []
   colourpicker: {fileID: 3685322042933230079}
   inputName: {fileID: 3632716700607358039}
+  goColorPreview: {fileID: 3685322042159995555}
+  goColorSelecter: {fileID: 3685322043585599311}
   txtTasksClaimed: {fileID: 4644054039643250113}
   txtLinesCompleted: {fileID: 7816209650556644298}
   imgSelected: {fileID: 4053360584343498417}
@@ -702,7 +704,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: -1321006399278410150}
           m_TargetAssemblyTypeName: Player, Assembly-CSharp
-          m_MethodName: SelectPlayer
+          m_MethodName: AttemptPlayerSelection
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1338,3 +1340,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31629c56f6f83234a90f6296f902f9c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3685322043585599311 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2130943085333300160, guid: 4214b57e615806c448ba9d993d629531, type: 3}
+  m_PrefabInstance: {fileID: 3365954382432294031}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3685322042159995555 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2130943086758907436, guid: 4214b57e615806c448ba9d993d629531, type: 3}
+  m_PrefabInstance: {fileID: 3365954382432294031}
+  m_PrefabAsset: {fileID: 0}
