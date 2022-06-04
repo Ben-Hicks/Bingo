@@ -130,13 +130,8 @@ public class Task : MonoBehaviour {
             OpenURL();
         } else {
 
-            //If we have a NetworkMessenger spawned, then issue a network message through that
-            if(NetworkSender.inst != null) {
-                NetworkSender.inst.SendToggleTask(this, taskmanager.nSelectedPlayer);
-            } else {
-                //If we don't have a NetworkMessenger spawned, then just handle this locally
-                ToggleClaimed(taskmanager.nSelectedPlayer);
-            }
+            RequestToggle(taskmanager.nSelectedPlayer);
+
         }
 
     }
@@ -166,6 +161,15 @@ public class Task : MonoBehaviour {
             Unclaim(iPlayer);
         } else {
             Claim(iPlayer);
+        }
+    }
+
+    public void RequestToggle(int iPlayer) {
+        //If we have a NetworkMessenger spawned, then issue a network message through that
+        if(NetworkSender.inst != null) {
+            NetworkSender.inst.SendToggleTask(this, taskmanager.nSelectedPlayer);
+        } else {
+            ToggleClaimed(iPlayer);
         }
     }
 

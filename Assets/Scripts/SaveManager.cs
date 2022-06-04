@@ -105,7 +105,7 @@ public class SaveManager : MonoBehaviour {
             case "EndGenerationParams":
                 //Once we reach the end of the section, we can generate the bingo board
                 // The following lines can be about setting up player info
-                taskmanager.GenerateBoard();
+                taskmanager.RequestBoardGeneration();
                 break;
 
             case "Player":
@@ -116,6 +116,13 @@ public class SaveManager : MonoBehaviour {
 
                 taskmanager.lstAllPlayers[iPlayer].SetName(sName);
                 taskmanager.lstAllPlayers[iPlayer].SetColour(colClaimed);
+
+                //Send the change if we are in networking mode
+                if(NetworkSender.inst != null) {
+                    NetworkSender.inst.SendNameChange(taskmanager.lstAllPlayers[iPlayer]);
+                    NetworkSender.inst.SendColorChange(taskmanager.lstAllPlayers[iPlayer]);
+                }
+
                 break;
 
             case "Task":
@@ -128,7 +135,12 @@ public class SaveManager : MonoBehaviour {
                 //After the first three entries we'll have an variable number of entries for each player that has claimed this task
                 for(int i = 5; i < arsSplitLine.Length; i++) {
                     int idClaiming = int.Parse(arsSplitLine[i]);
-                    taskmanager.lstBingoBoard[iTask].Claim(idClaiming);
+
+                    if(NetworkSender.inst != null) {
+                        NetworkSender.inst.SendToggleTask(iTask, idClaiming);
+                    } else {
+                        taskmanager.lstBingoBoard[iTask].RequestToggle(idClaiming);
+                    }
                 }
 
                 if(bFlagged) {
