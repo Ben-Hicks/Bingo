@@ -82,6 +82,7 @@ public class Task : MonoBehaviour {
     public void Init(TaskManager _taskmanager) {
         taskmanager = _taskmanager;
         arbCompletedBy = new bool[taskmanager.lstAllPlayers.Count];
+        flag.arbFlagged = new bool[taskmanager.lstAllPlayers.Count];
     }
 
     void ClearClaimColours() {

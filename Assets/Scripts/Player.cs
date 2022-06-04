@@ -16,6 +16,7 @@ public class Player : MonoBehaviour {
     public const float fREFRESHCOLOURFREQUENCY = 0.25f;
 
     public List<Task> lstTasksClaimed;
+    public List<Flag> lstFlags;
     public List<Line> lstLinesCompleted;
 
     public FlexibleColorPicker colourpicker;
@@ -67,6 +68,8 @@ public class Player : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         lstLinesCompleted = new List<Line>();
+        lstTasksClaimed = new List<Task>();
+        lstFlags = new List<Flag>();
     }
 
     public void UpdateBoardClaimColour() {
@@ -157,14 +160,30 @@ public class Player : MonoBehaviour {
         UpdateVisualLinesCompleted();
     }
 
+    public void ReactFlaggedTask(Flag flag) {
+        lstFlags.Add(flag);
+    }
+
+    public void ReactUnflaggedTask(Flag flag) {
+        lstFlags.Remove(flag);
+    }
+
     public void OnSelectPlayer() {
         //Debug.LogFormat("Selecting {0}", id);
         imgSelected.enabled = true;
+        UpdateFlagVisuals();
     }
 
     public void OnDeselectPlayer() {
         //Debug.LogFormat("Unselecting {0}", id);
         imgSelected.enabled = false;
+        UpdateFlagVisuals();
+    }
+
+    public void UpdateFlagVisuals() {
+        for(int i = 0; i < lstFlags.Count; i++) {
+            lstFlags[i].UpdateVisual();
+        }
     }
 
     public void LockUIModifiers() {
