@@ -14,6 +14,12 @@ public class NetworkReceiver : MonoBehaviour {
     }
 
     [PunRPC]
+    public void ReceiveToggleFlag(int iTask, int iPlayer) {
+        Debug.LogFormat("Received flag {0} for player {1}", TaskManager.inst.lstBingoBoard[iTask], iPlayer);
+        TaskManager.inst.lstBingoBoard[iTask].flag.ToggleFlag(iPlayer);
+    }
+
+    [PunRPC]
     public void ReceiveColorChange(int iPlayer, float[] arCol) {
         Debug.Log("Receiving colour change");
         TaskManager.inst.lstAllPlayers[iPlayer].SetColour(NetworkSender.DeserializeColor(arCol));

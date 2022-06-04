@@ -482,6 +482,12 @@ public class TaskManager : MonoBehaviour {
                     lstBingoBoard[i].Unclaim(j);
 
                 }
+
+                if(lstBingoBoard[i].flag.arbFlagged[j]) {
+
+                    lstBingoBoard[i].flag.UnsetFlag(j);
+
+                }
             }
 
             //Destroy the associated gameobject with this task

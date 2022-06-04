@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   taskmanager: {fileID: 0}
+  id: 0
   pfClaimedColour: {fileID: 5124286522880223650, guid: 2e91a2ec9d0164b68b7b4405d4f3b6c4, type: 3}
   lstgoClaimColours: []
   nParameterValue: 0
@@ -464,6 +465,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: pfFlagged
       objectReference: {fileID: 0}
+    - target: {fileID: 8216219156612495620, guid: 042243b11237b4a93892f05eb27c5a13, type: 3}
+      propertyPath: task
+      value: 
+      objectReference: {fileID: 2361014242708243594}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 042243b11237b4a93892f05eb27c5a13, type: 3}
 --- !u!224 &2925712794121486166 stripped

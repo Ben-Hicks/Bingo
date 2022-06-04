@@ -40,12 +40,10 @@ public class SaveManager : MonoBehaviour {
         for(int i = 0; i < taskmanager.lstBingoBoard.Count; i++) {
             Task taskCur = taskmanager.lstBingoBoard[i];
             //Build a string that has entries for each player that has completed the task
-            string sTaskEntry = string.Format("Task:{0}:Flagged:{1}:ClaimedBy", i, taskCur.flag.bFlagged);
+            string sTaskEntry = string.Format("Task:{0}:PlayerEntries", i);
 
             for(int j = 0; j < taskCur.arbCompletedBy.Length; j++) {
-                if(taskCur.arbCompletedBy[j]) {
-                    sTaskEntry += string.Format(":{0}", j);
-                }
+                sTaskEntry += string.Format(":{0},{1},{2}", j, taskCur.arbCompletedBy[j], taskCur.flag.arbFlagged[j]);
             }
 
             swFileWriter.WriteLine(sTaskEntry);
@@ -130,21 +128,33 @@ public class SaveManager : MonoBehaviour {
                 //Figure out which task this line is representing
                 int iTask = int.Parse(arsSplitLine[1]);
 
-                bool bFlagged = bool.Parse(arsSplitLine[3]);
-
                 //After the first three entries we'll have an variable number of entries for each player that has claimed this task
-                for(int i = 5; i < arsSplitLine.Length; i++) {
-                    int idClaiming = int.Parse(arsSplitLine[i]);
+                for(int i = 3; i < arsSplitLine.Length; i++) {
+
+                    //Subdivide each player entry into its index, claim, and flag
+                    string[] arsPlayerEntry = arsSplitLine[i].Split(',');
+
+                    int iPlyr = int.Parse(arsPlayerEntry[0]);
+                    bool bClaimed = bool.Parse(arsPlayerEntry[1]);
+                    bool bFlagged = bool.Parse(arsPlayerEntry[2]);
 
                     if(NetworkSender.inst != null) {
-                        NetworkSender.inst.SendToggleTask(iTask, idClaiming);
+                        //If online, send a message requesting a claim/flag
+                        if(bClaimed) {
+                            NetworkSender.inst.SendToggleTask(iTask, iPlyr);
+                        }
+                        if(bFlagged) {
+                            NetworkSender.inst.SendToggleFlag(iTask, iPlyr);
+                        }
                     } else {
-                        taskmanager.lstBingoBoard[iTask].RequestToggle(idClaiming);
+                        //If offline, just claim/flag the task directly
+                        if(bClaimed) {
+                            taskmanager.lstBingoBoard[iTask].RequestToggle(iPlyr);
+                        }
+                        if(bFlagged) {
+                            taskmanager.lstBingoBoard[iTask].flag.ToggleFlag(iPlyr);
+                        }
                     }
-                }
-
-                if(bFlagged) {
-                    taskmanager.lstBingoBoard[iTask].flag.SetFlag();
                 }
 
                 break;
