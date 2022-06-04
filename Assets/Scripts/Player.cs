@@ -20,6 +20,10 @@ public class Player : MonoBehaviour {
 
     public FlexibleColorPicker colourpicker;
     public InputField inputName;
+    public GameObject goColorPreview;
+    public GameObject goColorSelecter;
+    public const float fLockedColorPreviewTop = 0f;
+    public const float fLockedColorPreviewBot = -20f;
 
     public Text txtTasksClaimed;
     public Text txtLinesCompleted;
@@ -40,7 +44,7 @@ public class Player : MonoBehaviour {
             bColourChanged = true;
         }
 
-        SelectPlayer();
+        AttemptPlayerSelection();
     }
 
     public void SetName(string _sName) {
@@ -50,7 +54,7 @@ public class Player : MonoBehaviour {
 
     public void OnNameChange() {
         sName = inputName.text;
-        SelectPlayer();
+        AttemptPlayerSelection();
     }
 
     public void OnFinishNameChange() {
@@ -102,8 +106,15 @@ public class Player : MonoBehaviour {
         txtTasksClaimed.text = lstTasksClaimed.Count.ToString();
     }
 
-    public void SelectPlayer() {
-        taskmanager.SetSelectedPlayer(id);
+    public void AttemptPlayerSelection() {
+        if(NetworkSender.inst != null) {
+            //If we're in a networked room, then we don't need to ever reselect - it's locked
+            //  to whichever player is controlled locally
+            return;
+        } else {
+            //If were not networked, just select this player
+            taskmanager.SetSelectedPlayer(id);
+        }
     }
 
     public void ReactClaimedTask(Task task) {
@@ -156,5 +167,16 @@ public class Player : MonoBehaviour {
         imgSelected.enabled = false;
     }
 
+    public void LockUIModifiers() {
+        //Stop the name from being edited
+        inputName.interactable = false;
+
+        //And disable the Colour-picking UI element
+        goColorSelecter.SetActive(false);
+
+        //And expand the Color-preview window to cover the empty space of the Colour picker
+        goColorPreview.GetComponent<RectTransform>().sizeDelta = new Vector2(0f, fLockedColorPreviewTop - fLockedColorPreviewBot);
+        goColorPreview.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, (fLockedColorPreviewBot - fLockedColorPreviewTop));
+    }
 
 }

@@ -12,6 +12,18 @@ public class NetworkSender : MonoBehaviour {
         inst = this;
     }
 
+    public void Start() {
+        //On startup, we'll lock our player selection to the corresponding id of our member of the photon room
+        TaskManager.inst.SetSelectedPlayer(PhotonNetwork.LocalPlayer.ActorNumber - 1);
+
+        //Then disabled the editing of all other players
+        for(int i = 0; i < TaskManager.inst.lstAllPlayers.Count; i++) {
+            if(i == PhotonNetwork.LocalPlayer.ActorNumber - 1) continue;
+
+            TaskManager.inst.lstAllPlayers[i].LockUIModifiers();
+        }
+    }
+
     public static float[] SerializeColor(Color col) {
         float[] arCol = { col.r, col.g, col.b, col.a };
 
