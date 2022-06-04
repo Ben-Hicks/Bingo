@@ -9,7 +9,7 @@ public class NetworkReceiver : MonoBehaviour {
 
     [PunRPC]
     public void ReceiveToggleTask(int iTask, int iPlayer) {
-        Debug.Log("Receieved Claim");
+        Debug.LogFormat("Receieved Claim {0} for player {1}", TaskManager.inst.lstBingoBoard[iTask], iPlayer);
         TaskManager.inst.lstBingoBoard[iTask].ToggleClaimed(iPlayer);
     }
 

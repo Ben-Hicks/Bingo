@@ -4317,7 +4317,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1727162625}
         m_TargetAssemblyTypeName: TaskManager, Assembly-CSharp
-        m_MethodName: OnClickGenerateBoard
+        m_MethodName: RequestBoardGeneration
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

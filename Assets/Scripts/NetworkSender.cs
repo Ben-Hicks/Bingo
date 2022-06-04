@@ -37,8 +37,12 @@ public class NetworkSender : MonoBehaviour {
     }
 
     public void SendToggleTask(Task task, int iPlayer) {
-        Debug.Log("Sending Toggle");
-        photonview.RPC("ReceiveToggleTask", RpcTarget.AllBufferedViaServer, task.id, iPlayer);
+        SendToggleTask(task.id, iPlayer);
+    }
+
+    public void SendToggleTask(int iTask, int iPlayer) {
+        Debug.LogFormat("Sending Toggle of {0} for player {1}", iTask, iPlayer);
+        photonview.RPC("ReceiveToggleTask", RpcTarget.AllBufferedViaServer, iTask, iPlayer);
     }
 
     public void SendColorChange(Player player) {

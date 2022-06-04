@@ -564,7 +564,7 @@ public class TaskManager : MonoBehaviour {
         InitBingoBoard(nSeed);
     }
 
-    public void OnClickGenerateBoard() {
+    public void RequestBoardGeneration() {
         if(nSeed == 0) {
             //If we haven't set a seed, then just fill in a random one
             SetSeed(Random.Range(0, 1000000));
