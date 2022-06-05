@@ -99,7 +99,10 @@ public class NetworkController : MonoBehaviourPunCallbacks {
         if(PhotonNetwork.IsMasterClient == true) {
             Debug.Log("Spawning NetworkMessenger");
             PhotonNetwork.InstantiateSceneObject("Prefabs/pfNetworkMessenger", Vector3.zero, Quaternion.identity);
+
         }
+
+        TaskManager.inst.UpdateShownPlayers();
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message) {
@@ -114,6 +117,8 @@ public class NetworkController : MonoBehaviourPunCallbacks {
         OnConnectionStatusChange();
 
         Debug.Log("Another player joined this room");
+
+        TaskManager.inst.UpdateShownPlayers();
     }
 
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer) {
