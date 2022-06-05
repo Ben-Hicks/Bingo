@@ -118,11 +118,14 @@ public class Task : MonoBehaviour {
         //Left click
         if(Input.GetMouseButtonUp(0)) {
 
-            //Check if the ctrl key is held down - if so, open the url, otherwise claim the task
+            //Check if the ctrl key is held down - if so, open the url
             if(Input.GetKey(KeyCode.LeftControl)) {
                 OpenURL();
+            } else if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
+                //If shift is held, then fully complete the task
+                FullyCompleteTask();
             } else {
-
+                //By default, just increment our progress
                 IncrementProgress();
 
             }
@@ -154,6 +157,10 @@ public class Task : MonoBehaviour {
 
         //If we have a URL, we can open it in a browser
         Application.OpenURL(string.Format("https://www.{0}", taskBase.sURL));
+    }
+
+    public void FullyCompleteTask() {
+        RequestNewProgressValue(taskmanager.nSelectedPlayer, nParameterValue);
     }
 
     public void IncrementProgress() {
