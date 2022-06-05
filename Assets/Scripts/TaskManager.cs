@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Linq;
+using Photon.Pun;
 
 public class TaskManager : MonoBehaviour {
 
@@ -15,8 +16,13 @@ public class TaskManager : MonoBehaviour {
     public string sTaskFileName;
     public List<Player> lstAllPlayers;
 
+    public int nPlayersSupporting;
+
     public List<Task> lstBingoBoard;
     public GameObject goBingoBoard;
+    public RectTransform recttransPlayerPanel;
+    public const float fTotalPlayerPanelHeight = 355f;
+    public const float fPlayerHeight = 68f;
 
     public GameObject pfTask;
     public GameObject pfLine;
@@ -617,5 +623,21 @@ public class TaskManager : MonoBehaviour {
         for(int i = 0; i < lstBingoBoard.Count; i++) {
             lstBingoBoard[i].UpdateVisualDescription();
         }
+    }
+
+    public void UpdateShownPlayers() {
+        //Update the number of players we want to show to the number of players in the room (but only if it would increase
+        //  the amount - we'll continue to show players that D/C)
+        nPlayersSupporting = Mathf.Max(nPlayersSupporting, PhotonNetwork.CurrentRoom.PlayerCount);
+
+        //Set the first few players to be active 
+        for(int i = 0; i < lstAllPlayers.Count; i++) {
+            lstAllPlayers[i].gameObject.SetActive(i < nPlayersSupporting);
+        }
+
+        //Set the height of the player panel to appropriately hold the remaining players
+
+        recttransPlayerPanel.sizeDelta = new Vector2(150f, fTotalPlayerPanelHeight - (fPlayerHeight * (lstAllPlayers.Count - nPlayersSupporting)));
+        //recttransPlayerPanel.anchoredPosition = new Vector2(0f, (fLockedColorPreviewBot - fLockedColorPreviewTop));
     }
 }
