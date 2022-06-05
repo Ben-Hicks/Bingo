@@ -36,13 +36,9 @@ public class NetworkSender : MonoBehaviour {
         return col;
     }
 
-    public void SendToggleTask(Task task, int iPlayer) {
-        SendToggleTask(task.id, iPlayer);
-    }
-
-    public void SendToggleTask(int iTask, int iPlayer) {
-        Debug.LogFormat("Sending Toggle of {0} for player {1}", iTask, iPlayer);
-        photonview.RPC("ReceiveToggleTask", RpcTarget.AllBufferedViaServer, iTask, iPlayer);
+    public void SendTaskProgress(int iTask, int iPlayer, int nProgress) {
+        Debug.LogFormat("Sending progress for {0} for player {1} of value {2}", iTask, iPlayer, nProgress);
+        photonview.RPC("ReceiveTaskProgress", RpcTarget.AllBufferedViaServer, iTask, iPlayer, nProgress);
     }
 
     public void SendToggleFlag(int iTask, int iPlayer) {

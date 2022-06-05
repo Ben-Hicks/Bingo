@@ -42,8 +42,8 @@ public class SaveManager : MonoBehaviour {
             //Build a string that has entries for each player that has completed the task
             string sTaskEntry = string.Format("Task:{0}:PlayerEntries", i);
 
-            for(int j = 0; j < taskCur.arbCompletedBy.Length; j++) {
-                sTaskEntry += string.Format(":{0},{1},{2}", j, taskCur.arbCompletedBy[j], taskCur.flag.arbFlagged[j]);
+            for(int j = 0; j < taskCur.arnPlayerProgress.Length; j++) {
+                sTaskEntry += string.Format(":{0},{1},{2}", j, taskCur.arnPlayerProgress[j], taskCur.flag.arbFlagged[j]);
             }
 
             swFileWriter.WriteLine(sTaskEntry);
@@ -135,22 +135,22 @@ public class SaveManager : MonoBehaviour {
                     string[] arsPlayerEntry = arsSplitLine[i].Split(',');
 
                     int iPlyr = int.Parse(arsPlayerEntry[0]);
-                    bool bClaimed = bool.Parse(arsPlayerEntry[1]);
+                    int nProgress = int.Parse(arsPlayerEntry[1]);
                     bool bFlagged = bool.Parse(arsPlayerEntry[2]);
 
                     if(NetworkSender.inst != null) {
                         //If online, send a message requesting a claim/flag
-                        if(bClaimed) {
-                            NetworkSender.inst.SendToggleTask(iTask, iPlyr);
-                        }
+
+                        NetworkSender.inst.SendTaskProgress(iTask, iPlyr, nProgress);
+
                         if(bFlagged) {
                             NetworkSender.inst.SendToggleFlag(iTask, iPlyr);
                         }
                     } else {
                         //If offline, just claim/flag the task directly
-                        if(bClaimed) {
-                            taskmanager.lstBingoBoard[iTask].RequestToggle(iPlyr);
-                        }
+
+                        taskmanager.lstBingoBoard[iTask].ChangeProgress(iPlyr, nProgress);
+
                         if(bFlagged) {
                             taskmanager.lstBingoBoard[iTask].flag.ToggleFlag(iPlyr);
                         }

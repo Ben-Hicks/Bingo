@@ -8,9 +8,9 @@ public class NetworkReceiver : MonoBehaviour {
 
 
     [PunRPC]
-    public void ReceiveToggleTask(int iTask, int iPlayer) {
+    public void ReceiveTaskProgress(int iTask, int iPlayer, int nNewValue) {
         Debug.LogFormat("Receieved Claim {0} for player {1}", TaskManager.inst.lstBingoBoard[iTask], iPlayer);
-        TaskManager.inst.lstBingoBoard[iTask].ToggleClaimed(iPlayer);
+        TaskManager.inst.lstBingoBoard[iTask].ChangeProgress(iPlayer, nNewValue);
     }
 
     [PunRPC]
@@ -47,5 +47,7 @@ public class NetworkReceiver : MonoBehaviour {
         TaskManager.inst.SetSeed(nSeed);
 
         TaskManager.inst.GenerateBoard();
+
+        TaskManager.inst.UpdateAllTaskDescriptions();
     }
 }
