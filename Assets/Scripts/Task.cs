@@ -22,7 +22,7 @@ public class Task : MonoBehaviour {
     public Flag flag;
     public List<Line> lstLinesIn = new List<Line>();
 
-    public bool[] arbCompletedBy;
+    public int[] arnPlayerProgress;
 
     public void SetId(int _id) {
         id = _id;
@@ -31,11 +31,6 @@ public class Task : MonoBehaviour {
     public void SetTask(PossibleTask _taskBase) {
 
         taskBase = _taskBase;
-
-        //If we have a fixed difficulty, then set it - otherwise, wait for our parameter's value to set it
-        if(taskBase.bUsingParameter == false) {
-            fDifficulty = taskBase.nMinDifficulty;
-        }
 
         UpdateVisuals();
 
@@ -57,20 +52,14 @@ public class Task : MonoBehaviour {
     }
 
     public string GetFilledDescription() {
-        return string.Format(taskBase.sRawDescription, nParameterValue);
+        string sProgress = arnPlayerProgress[taskmanager.nSelectedPlayer] == 0 ? nParameterValue.ToString() :
+            string.Format("{0}/{1}", arnPlayerProgress[taskmanager.nSelectedPlayer], nParameterValue);
+
+        return string.Format(taskBase.sRawDescription, sProgress);
     }
 
     public void UpdateVisualDescription() {
-
-        string sDescription = "";
-
-        if(taskBase.bUsingParameter) {
-            sDescription = GetFilledDescription();
-        } else {
-            sDescription = taskBase.sRawDescription;
-        }
-
-        txtDescription.text = sDescription;
+        txtDescription.text = GetFilledDescription(); ;
     }
 
 
@@ -81,7 +70,7 @@ public class Task : MonoBehaviour {
 
     public void Init(TaskManager _taskmanager) {
         taskmanager = _taskmanager;
-        arbCompletedBy = new bool[taskmanager.lstAllPlayers.Count];
+        arnPlayerProgress = new int[taskmanager.lstAllPlayers.Count];
         flag.arbFlagged = new bool[taskmanager.lstAllPlayers.Count];
     }
 
@@ -97,8 +86,8 @@ public class Task : MonoBehaviour {
 
         List<Color> lstColorsClaiming = new List<Color>();
 
-        for(int i = 0; i < arbCompletedBy.Length; i++) {
-            if(arbCompletedBy[i]) {
+        for(int i = 0; i < arnPlayerProgress.Length; i++) {
+            if(arnPlayerProgress[i] == nParameterValue) {
                 lstColorsClaiming.Add(taskmanager.lstAllPlayers[i].colClaimed);
             }
         }
@@ -124,19 +113,30 @@ public class Task : MonoBehaviour {
 
     }
 
-    public void OnClickTask() {
+    public void OnLeftClickTask() {
 
-        //Check if the ctrl key is held down - if so, open the url, otherwise claim the task
-        if(Input.GetKey(KeyCode.LeftControl)) {
-            OpenURL();
-        } else {
+        //Left click
+        if(Input.GetMouseButtonUp(0)) {
 
-            RequestToggle(taskmanager.nSelectedPlayer);
+            //Check if the ctrl key is held down - if so, open the url, otherwise claim the task
+            if(Input.GetKey(KeyCode.LeftControl)) {
+                OpenURL();
+            } else {
 
+                IncrementProgress();
+
+            }
+        } else if(Input.GetMouseButtonUp(1)) {
+            //Right click
+
+            DecrementProgress();
         }
 
     }
 
+    public void OnRightClickTask() {
+        DecrementProgress();
+    }
 
     public void OnStartHover() {
         //Debug.LogFormat("Start hover {0}", taskBase.sRawDescription);
@@ -156,56 +156,82 @@ public class Task : MonoBehaviour {
         Application.OpenURL(string.Format("https://www.{0}", taskBase.sURL));
     }
 
-    public void ToggleClaimed(int iPlayer) {
+    public void IncrementProgress() {
+        int iPlayer = taskmanager.nSelectedPlayer;
 
-        if(arbCompletedBy[iPlayer]) {
-            Unclaim(iPlayer);
-        } else {
-            Claim(iPlayer);
+        if(arnPlayerProgress[iPlayer] == nParameterValue) {
+            Debug.Log("No need to increment, since we're already at maximum");
+            return;
         }
+
+        int nNewValue = arnPlayerProgress[iPlayer] + 1;
+
+        RequestNewProgressValue(iPlayer, nNewValue);
+
     }
 
-    public void RequestToggle(int iPlayer) {
+    public void DecrementProgress() {
+        int iPlayer = taskmanager.nSelectedPlayer;
+
+        if(arnPlayerProgress[iPlayer] == 0) {
+            Debug.Log("No need to decrement, since we're already at 0");
+            return;
+        }
+
+        int nNewValue = arnPlayerProgress[iPlayer] - 1;
+
+        RequestNewProgressValue(iPlayer, nNewValue);
+
+    }
+
+    public void RequestNewProgressValue(int iPlayer, int nNewValue) {
         //If we have a NetworkMessenger spawned, then issue a network message through that
         if(NetworkSender.inst != null) {
-            NetworkSender.inst.SendToggleTask(this, taskmanager.nSelectedPlayer);
+            NetworkSender.inst.SendTaskProgress(id, iPlayer, nNewValue);
         } else {
-            ToggleClaimed(iPlayer);
+            ChangeProgress(iPlayer, nNewValue);
         }
     }
 
-    public void Claim(int iPlayer) {
-        if(arbCompletedBy[iPlayer]) {
-            Debug.LogError("Already claimed");
+    public void ChangeProgress(int iPlayer, int nNewValue) {
+
+        int nOldProgress = arnPlayerProgress[iPlayer];
+
+        if(nOldProgress == nNewValue) {
+            Debug.Log("No need to do anything if this is already our value");
             return;
         }
 
-        arbCompletedBy[iPlayer] = true;
+        arnPlayerProgress[iPlayer] = nNewValue;
 
-        taskmanager.lstAllPlayers[iPlayer].ReactClaimedTask(this);
+        UpdateVisualDescription();
 
-        for(int i = 0; i < lstLinesIn.Count; i++) {
-            lstLinesIn[i].UpdateCompletion(iPlayer);
+        //If we've reached completion, then we should update colours and see if any lines are complete
+        if(IsCompleteBy(iPlayer)) {
+
+            taskmanager.lstAllPlayers[iPlayer].ReactClaimedTask(this);
+
+            for(int i = 0; i < lstLinesIn.Count; i++) {
+                lstLinesIn[i].UpdateCompletion(iPlayer);
+            }
+
+            UpdateVisualClaimed();
+        } else if(nOldProgress == nParameterValue) {
+            //If we previously were completed, then we no longer are
+
+            taskmanager.lstAllPlayers[iPlayer].ReactUnclaimedTask(this);
+
+            for(int i = 0; i < lstLinesIn.Count; i++) {
+                lstLinesIn[i].UpdateCompletion(iPlayer);
+            }
+
+            UpdateVisualClaimed();
         }
-
-        UpdateVisualClaimed();
     }
 
-    public void Unclaim(int iPlayer) {
-        if(arbCompletedBy[iPlayer] == false) {
-            Debug.LogError("Not yet claimed");
-            return;
-        }
 
-        arbCompletedBy[iPlayer] = false;
-
-        taskmanager.lstAllPlayers[iPlayer].ReactUnclaimedTask(this);
-
-        for(int i = 0; i < lstLinesIn.Count; i++) {
-            lstLinesIn[i].UpdateCompletion(iPlayer);
-        }
-
-        UpdateVisualClaimed();
+    public bool IsCompleteBy(int iPlayer) {
+        return arnPlayerProgress[iPlayer] == nParameterValue;
     }
 
     public void Update() {

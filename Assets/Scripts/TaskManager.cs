@@ -476,12 +476,9 @@ public class TaskManager : MonoBehaviour {
         for(int i = 0; i < lstBingoBoard.Count; i++) {
 
             //Unclaim all claims players have over this task
-            for(int j = 0; j < lstBingoBoard[i].arbCompletedBy.Length; j++) {
-                if(lstBingoBoard[i].arbCompletedBy[j]) {
+            for(int j = 0; j < lstBingoBoard[i].arnPlayerProgress.Length; j++) {
 
-                    lstBingoBoard[i].Unclaim(j);
-
-                }
+                lstBingoBoard[i].ChangeProgress(j, 0);
 
                 if(lstBingoBoard[i].flag.arbFlagged[j]) {
 
@@ -614,5 +611,11 @@ public class TaskManager : MonoBehaviour {
             lstAllPlayers[nSelectedPlayer].OnSelectPlayer();
         }
 
+    }
+
+    public void UpdateAllTaskDescriptions() {
+        for(int i = 0; i < lstBingoBoard.Count; i++) {
+            lstBingoBoard[i].UpdateVisualDescription();
+        }
     }
 }

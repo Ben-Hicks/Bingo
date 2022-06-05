@@ -36,7 +36,7 @@ public class Line {
 
     public bool IsCompleteBy(int iPlayer) {
         for(int i = 0; i < lstTasks.Count; i++) {
-            if(lstTasks[i].arbCompletedBy[iPlayer] == false) {
+            if(lstTasks[i].IsCompleteBy(iPlayer) == false) {
                 return false;
             }
         }

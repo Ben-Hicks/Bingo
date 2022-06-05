@@ -139,7 +139,7 @@ MonoBehaviour:
   txtDescription: {fileID: 6287881607938505699}
   txtDifficulty: {fileID: 1899032095}
   flag: {fileID: 5151500650963647100}
-  arbCompletedBy: 
+  arnPlayerProgress: 
 --- !u!114 &6169205975303488035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 2361014242708243594}
           m_TargetAssemblyTypeName: Task, Assembly-CSharp
-          m_MethodName: OnClickTask
+          m_MethodName: OnLeftClickTask
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

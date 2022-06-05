@@ -171,6 +171,7 @@ public class Player : MonoBehaviour {
     public void OnSelectPlayer() {
         //Debug.LogFormat("Selecting {0}", id);
         imgSelected.enabled = true;
+        taskmanager.UpdateAllTaskDescriptions();
         UpdateFlagVisuals();
     }
 

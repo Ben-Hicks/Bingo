@@ -14,16 +14,13 @@ public class PossibleTask {
     public float fFrequencyModifier;
     public string sURL;
 
-    public bool bUsingParameter;
-
     public PossibleTask() {
         //We'll initialize everything to a default value - the log file will
         //  then overwrite these as we continue through parsing the line
 
         sRawDescription = "";
-        bUsingParameter = false;
-        nMinValue = -1;
-        nMaxValue = -1;
+        nMinValue = 1;
+        nMaxValue = 1;
         nMinDifficulty = -1;
         nMaxDifficulty = -1;
         nMaxCount = 1;
@@ -38,11 +35,9 @@ public class PossibleTask {
 
     public void SetMinValue(int _nMinValue) {
         nMinValue = _nMinValue;
-        bUsingParameter = true;
     }
     public void SetMaxValue(int _nMaxValue) {
         nMaxValue = _nMaxValue;
-        bUsingParameter = true;
     }
 
     public void SetMinDifficulty(int _nMinDifficulty) {
@@ -78,20 +73,6 @@ public class PossibleTask {
             return false;
         }
 
-        if(nMinValue == -1 && bUsingParameter) {
-            Debug.LogErrorFormat("Missing Minimum Value for {0}", sRawDescription);
-            return false;
-        }
-
-        if(bUsingParameter && nMaxValue == -1) {
-            Debug.LogErrorFormat("Missing Maximum Value for {0}", sRawDescription);
-            return false;
-        }
-
-        if(bUsingParameter == false && (nMinDifficulty == -1 || nMaxDifficulty == -1)) {
-            Debug.LogErrorFormat("Missing Difficulty for {0}", sRawDescription);
-        }
-
         if(nMinDifficulty == -1) {
             Debug.LogErrorFormat("Missing Minimum Difficulty for {0}", sRawDescription);
             return false;
@@ -106,7 +87,7 @@ public class PossibleTask {
     }
 
     public override string ToString() {
-        if(bUsingParameter) {
+        if(nMinValue != nMaxValue) {
             return string.Format("<Desc:{0},Value:{1}-{2},Diff:{3}-{4},Max-count:{5},Min-delta:{6},Freq:{7}>",
                 sRawDescription, nMinValue, nMaxValue, nMinDifficulty, nMaxDifficulty, nMaxCount, nMinDelta, fFrequencyModifier);
         } else {
