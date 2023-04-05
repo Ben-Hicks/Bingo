@@ -2,14 +2,47 @@
 
 #Big Story Tasks
 Desc:Darkbeast Ganon,Diff:100
-Desc:{0} Divine Beasts,Value:1-4,Diff:30-120,Max-count:2,Freq:5
+Desc:{0} Divine Beasts,Value:1-4,Diff:30-120,Max-count:2
 Desc:Vah Medoh,Diff:35
+Desc:Rescue Yunobo,Diff:40
 Desc:Vah Rudania,Diff:75
 Desc:Vah Ruta,Diff:40
-Desc:Vah Naboris,Diff:65
+Desc:Master Kohga,Diff:40
+Desc:Vah Naboris,Diff:75
+Desc:Remake any Champion Equipment,Diff:50
+Desc:Master Sword,Diff:85
 
 #Weapon Collections
+Desc:Refine a Rusty Equipment item,Diff:22
+Desc:Any Tier-2 Rod,Diff:45
 Desc:Any Royal Weapon,Diff:25
+Desc:Any Dragonbone Weapon,Diff:25
+Desc:4 Unique Zora Weapons,Diff:25
+Desc:3 Unique Gerudo Weapons,Diff:35
+Desc:3 Unique Forest Dweller's Weapons,Diff:30
+Desc:1 Ancient Weapon,Diff:45
+Desc:Windcleaver,Diff:43
+Desc:20 Ice Arrows,Diff:30
+Desc:20 Fire Arrows,Diff:30
+Desc:40 Shock Arrows,Diff:37
+Desc:30 Bomb Arrows,Diff:35
+Desc:Spring-Loaded Hammer,Diff:25
+Desc:{0} Identical Equipment in Inventory,Value:3-6,Diff:8-37
+Desc:1 Ice, 1 Fire, and 1 Electric weapon,Diff:48
+
+#Equipment
+Desc:Bokoblin Mask,Diff:43
+Desc:Dye any Armor Navy,Diff:28
+Desc:Dye any Armor Crimson,Diff:32
+Desc:Wear 3 different Dyes at once,Diff:20
+Desc:Upgrade an Armor to 2*,Diff:27
+Desc:Entire equiped outfit 2*,Diff:38
+Desc:Full Zora Set,Diff:43
+Desc:Full Rubber Set,Diff:53
+Desc:Get any Gerudo gemstone headpiece,Diff:40
+Desc:All 3 Xenoblade Armor items,Diff:62
+Desc:Full Barbarian Set,Diff:60
+Desc:Full Climbing Set,Diff:52
 
 #Collectables
 Desc:{0} Diamonds,Value:1-4,Diff:10-60
@@ -17,20 +50,35 @@ Desc:{0} Rubies,Value:1-4,Diff:15-40
 Desc:{0} Sapphires,Value:1-4,Diff:15-40
 Desc:{0} Topaz,Value:1-4,Diff:15-40
 Desc:{0} of each Gemstone,Value:1-2,Diff:35-50
+Desc:4 Fairies from different locations,Diff:40
+Desc:Any Material from Farosh,Diff:20
+Desc:Any Material from Dinraal,Diff:25
+Desc:Any Material from Naydra,Diff:50
+Desc:A Material from each Dragon,Diff:60
+Desc:{0} Different Flowers,Value:4-7,Diff:10-35
 
-#Big Monsters
-Desc:{0} Boss Monsters,Value:1-12,Diff:10-70,Freq:3
-Desc:{0} Hinox,Value:1-4,Diff:20-60
+#Kill Monsters
+Desc:Kill 1 of each elemental Wizzrobe,Diff:30
+Desc:{0} Boss Monsters,Value:3-12,Diff:10-70
+Desc:{0} Hinox,Value:2-4,Diff:20-60
 Desc:{0} Molduga,Value:1-2,Diff:40-55
-Desc:{0} Talos,Value:1-4,Diff:15-40
-Desc:{0} Lynel,Value:1-4,Diff:25-75
+Desc:{0} Talos,Value:4-6,Diff:20-40
+Desc:Frost Talus,Diff:65
+Desc:Igneo Talus,Diff:65
+Desc:{0} Lynel,Value:1-3,Diff:40-70
+Desc:Guardian Skywatcher,Diff:50
 
 #Exploration
-Desc:{0} Towers,Value:3-14,Diff:10-95,Max-count:3,Min-delta:2,Freq:7
-Desc:{0} Shrines,Value:8-30,Diff:24-75,Max-count:3,Min-delta:5,Freq:8
+Desc:{0} Towers,Value:3-14,Diff:10-95,Max-count:3,Min-delta:2
+Desc:{0} Shrines,Value:8-30,Diff:24-75,Max-count:3,Min-delta:5
+Desc:Forgotten Temple Shrine,Diff:20
+Desc:1 Shrine from {0} Regions,Value:6-14,Diff:25-70
+Desc:{0} Picture Memories,Value:4-10,Diff:28-62
+Desc:{0} Hearts (incl. gold),Value:15-25,Diff:15-35
+Desc:Visit 1 Secret Hot Spring,Diff:50
 
 #Koroks
-Desc:{0} Koroks,Value:5-75,Diff:3-80,Max-count:3,Min-delta:5,Freq:5
+Desc:{0} Koroks,Value:5-75,Diff:3-80,Max-count:3,Min-delta:5
 Desc:{0} Great Plateau Koroks,Value:3-18,Diff:3-45
 Desc:{0} Lake Hylia Koroks,Value:3-30,Diff:6-55
 Desc:{0} Faron Koroks,Value:3-24,Diff:8-60
@@ -48,10 +96,303 @@ Desc:{0} Lanayru Koroks,Value:3-36,Diff:4-50
 Desc:{0} Hateno Koroks,Value:3-40,Diff:5-50
 Desc:{0} Dueling Peaks Koroks,Value:3-35,Diff:3-45
 
-#Cooking
-Desc:Curry Pilaf,Diff:23,Freq:0.3,URL:zeldadungeon.net/wiki/Curry_Pilaf#Cooking_Ingredients
+#Slate/Camera
+Desc:Stasis+,Diff:40
+Desc:Sheikah Sensor+,Diff:15
+Desc:Bomb+,Diff:15
+Desc:Selfie while on fire,Diff:5
+Desc:Selfie with Kass,Diff:10
+Desc:Selfie with Riju,Diff:35
+Desc:Selfie with Mt. Goronmore,Diff:30
+Desc:Selfie with {0} Leviathan Skeleton(s),Value:1-2,Diff:40-55
+Desc:Selfie with a Lynel,Diff:30
+Desc:Selfie with 3 different Guardian types,Diff:40
+Desc:Selfie with a "Ganon",Diff:32
+Desc:{0} Monsters in Compendium,Value:5-20,Diff:15-45
+Desc:{0} Birds in Compendium,Value:5-12,Diff:10-40
+Desc:{0} Aquatic Creatures in Compendium,Value:7-12,Diff:18-35
+Desc:{0} Mammals in Compendium,Value:12-19,Diff:15-48
+
+#Minigames
+Desc:Bowl a Strike in Bowling Minigame,Diff:25
+Desc:Complete Super Gut Check Challenge,Diff:25
+Desc:Under 1:50 in Selmie's Advanced Course,Diff:46
+Desc:Extravagant Bridle,Diff:33
+Desc:{0} Rewards from unique Minigames,Value:3-7,Diff:30-60
 
 #Memes
 Desc:Divine Beast Selfie (pacified),Diff:40
 Desc:Fall in Lava,Diff:15
+Desc:Game Over from Cuccos,Diff:5
+Desc:Visit the Edge of the World,Diff:23
+Desc:Obtain a Purple Rupee,Diff:15
+Desc:Obtain a Silver Rupee,Diff:20
+Desc:Obtain a Gold Rupee,Diff:25
+Desc:{0} Dog Treasures,Value:2-4,Diff:17-22
+Desc:Read King's Diary,Diff:37
+Desc:Read Zelda's Diary,Diff:32
+Desc:Sleep in {0} Different Beds,Value:5-10,Diff:5-15
+Desc:Open {0} Chests in Labyrinths,Value:6-13,Diff:35-65
+Desc:Open {0} Chests in Shrines,Value:5-20,Diff:10-45
+Desc:Buy a House,Diff:50
+Desc:{0} Great Fairies Paid,Value:2-3,Diff:27-45
+Desc:Pay all Great Fairies,Diff:95
+Desc:Resurrect a Horse,Diff:26
+Desc:Mount {0} different Creatures,Value:3-8,Diff:25-75
+
+
+#Sides Quests
+Desc:{0} Side Quests,Value:10-XXX,Diff:XXX-XXX,Max-count:2,Min-delta:4,URL:game8.co/games/LoZ-BotW/archives/292467#hm_2
+Desc:{0} Akkala Side Quests,Value:2-4,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_3
+Desc:{0} Central Hyrule Side Quests,Value:2-4,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_4
+#What rule are we using for Koko's?  This rough balancing is working as though each stage is separately counted as a different quest
+Desc:{0} Dueling Peaks Side Quests,Value:7-11,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_5
+Desc:{0} Eldin Side Quests,Value:2-4,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_6
+Desc:{0} Faron Side Quests,Value:2-5,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_7
+Desc:{0} Hateno Side Quests,Value:3-10,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_10
+Desc:{0} Lanayru Side Quests,Value:3-9,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_13
+Desc:{0} Tabantha Side Quests,Value:3-5,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_15
+Desc:{0} Wasteland Side Quests,Value:3-12,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_16
+Desc:{0} Woodland Side Quests,Value:2-5,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_17
+...
+
+
+###Easy
+
+#Gourmet Meat
+Desc:A Rare Find,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/302740#hm_2
+
+#Light the torchs in Kakariko
+Desc:Arrows of Burning Heat,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304607#hm_2
+
+#Collect 5 fireflies
+Desc:By Firefly's Light,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305300#hm_2
+
+#Get dem chickens
+Desc:Flown the Coop,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305772#hm_2
+
+#Take the Axe from the top of the stables
+Desc:Thunder Magnet,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305178#hm_2
+
+#Get 10 crickets
+Desc:A Gift for my Beloved,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/301814#hm_2
+
+#Talk to a statue in Hateno
+Desc:The Statue's Bargain,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305160#hm_2
+
+#Take a dive
+Desc:Diving is Beauty!,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305308#hm_2
+
+#Magnesis a chest out of the river (Wetland stable)
+Desc:Riverbed Reward,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304970#hm_2
+
+#Talk to Kheel (like literally in sight of the quest giver)
+Desc:Find Kheel,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304790#hm_2
+
+#Bring a baked apple
+Desc:The Apple of My Eye,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305099#hm_2
+
+#Bring a flint
+Desc:The Spark of Romance,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305159#hm_2
+
+
+
+
+
+
+###Pre-Divine Beast
+
+#Armoranth + One of each dragonfly
+Desc:Little Sister's Big Request,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304818#hm_2
+
+#Picture of Kilton
+Desc:A Shady Customer,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/303711#hm_2
+
+#Chests on Hebra Mountain, Skull Lake, Hylia Lake
+Desc:[Xenoblade Chronicles 2],Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305221#hm_2
+
+#Cook a Fruitcake or a Monster Cake
+Desc:A Royal Recipe,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305645#hm_2
+
+#Get a Royal Guard's Equipment
+Desc:The Royal Guard's Gear,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305658#hm_2
+
+#Catch 10 fireproof lizards
+Desc:Fireproof Lizard Roundup,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305285#hm_2
+
+#Sell 10 amber to Gerudo merchant in Goron City
+Desc:The Jewel Trade,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305143#hm_2
+
+#Kill an Igneo Talus
+Desc:The Road to Respect,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305145#hm_2
+
+#Raft over to a spot in the ocean and magnesis some chests to the surface
+Desc:Sunken Treasure,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/297573#hm_2
+
+#Clear an ocean monster camp
+Desc:Take Back the Sea,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305092#hm_2
+
+#Bring a Hearty Blueshell Snail and Goat Butter
+Desc:What's for Dinner?,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305196#hm_2
+
+#Light Robbie's Blue Flame
+Desc:Robbie's Research,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305327#hm_2
+
+#3 ancient shafts, screws, and cores
+Desc:Slated for Upgrades,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305487#hm_2
+
+#After Sheikah Sensor+ (3 ancient screws), take a picture of sunshrooms
+Desc:Sunshroom Sensing,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305642#hm_2
+
+#Find an underwater treasure south of Hateno
+Desc:The Hero's Cache,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305132#hm_2
+
+#Kill some bokoblins attacking sheep
+Desc:The Sheep Rustlers,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305150#hm_2
+
+#Weapon list: Traveler's sword, Fire Rod, Moblin Club, Duplex Bow, Windcleaver,
+#             Ancient Battle Axe+, Frostspear, Ancient Short Sword
+Desc:{0} Steps of The Weapon Connoisseur,Value:1-8,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/305165#hm_2
+
+#Bring a blue nightshade to a thirsty boi
+Desc:A Gift of Nightshade,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/301827#hm_2
+
+#Self-explanitory
+Desc:Stalhorse Pictured!,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305077#hm_2
+
+#Kill horseback bokoblins
+#Desc:The Horseback Hoodlums,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305139#hm_2
+
+#Catch 5 hot-footed frogs (around ponds, especially when raining)
+#Desc:Frog Catching,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304793#hm_2
+
+#Get 10 luminous stones
+#Desc:Luminous Stone Gathering,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304930#hm_2
+
+#Take a picture of a lynel
+#Desc:Lynel Safari,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305313#hm_2
+
+#Escort a package down a river (southwest of Zora's Domain)
+#Desc:Special Delivery,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305035#hm_2
+
+#Find all 10 Zora tablets
+Desc:Zora Stone Monuments,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305207#hm_2
+
+#Deliver money to a great fairy
+Desc:A Gift for the Great Fairy,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/301822#hm_2
+
+#Get Goron Spice
+Desc:Curry for What Ails You,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304703#hm_2
+
+#Get a Chilly Elixir (made from Cold Darner or Winterwing Butterfly)
+Desc:An Ice Guy,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304599#hm_2
+
+#Deliver your horse
+Desc:Good-Sized Horse,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304799#hm_2
+
+#Free four captives from a Bokoblin camp
+Desc:Missing in Action,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304945#hm_2
+
+#Get 55 Rushrooms (Sheikah Sensor+ can help)
+Desc:Rushroom Rush!,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305001#hm_2
+
+#Take a picture of the Heroine statue
+Desc:The Eighth Heroine,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305103#hm_2
+
+#Take a picture of the Heroine's sword (Requires completing The Eighth Heroine)
+Desc:The Forgotten Sword,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305116#hm_2
+
+#Get a Freezing Rod
+Desc:A Freezing Rod,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/301809#hm_2
+
+#Lift a barrel with 2 octorok balloons
+Desc:Balloon Flight,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304645#hm_2
+
+#Take a picture of a Blupee (requires Hetsu)
+Desc:Legendary Rabbit,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304809#hm_2
+
+#Bring the following: Apple, Fortified Pumpkin, Sunshroom, 
+# Voltfin Trout, Lynel Hoof
+Desc:Riddles of Hyrule,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/297547#hm_2
+
+#Complete the 3 korok trials
+Desc:The Korok Trials,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305231#hm_2
+
+
+
+
+###Post-Divine Beast
+
+#Find a treasure on a hill near the Goron Hotsprings
+Desc:Death Mountain's Secret,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304734#hm_2
+
+#Find a Zora wife on the shore of an island in west lake Hylia
+Desc:A Wife Washed Away,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/294224#hm_2
+
+#Kill a hinox
+Desc:The Giant of Ralis Pond,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/305126#hm_2
+
+#Kill a frost talus up in Hebra
+Desc:Face the Frost Talus,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/304770#hm_2
+
+#Get Molduga guts (also requires starting The Thunder Helm quest)
+Desc:Medicinal Molduga,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/301602#hm_2
+
+#Climb up waterfall, and deliver 10 wildberries (also requires starting The Thunder Helm quest)
+Desc:The Mystery Polluter,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/301613#hm_2
+
+#Go to the leviathan skeleton with a hearty durian (also requires starting The Thunder Helm quest)
+Desc:The Search for Barta,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/3294688#hm_2
+
+#Enter the Gerudo Secret Club (also requires starting The Thunder Helm quest)
+Desc:The Secret Club's Secret,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/301617#hm_2
+
+#Get 10 flint (also requires starting The Thunder Helm quest)
+Desc:Tools of the Trade,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/301630#hm_2
+
+#Complete Medicinal Molduga, The Secret Club's Secret, The Mystery Polluter,
+# Tools of the Trade, and The Search for Barta
+Desc:The Thunder Helm,Diff:XXX,URL:game8.co/games/LoZ-BotW/archives/301802#hm_2
+
+
+
+
+
+
+
+
+###Hard
+
+#Finish Tarey-Town
+Desc:From the Ground Up,Diff:75,URL:game8.co/games/LoZ-BotW/archives/297431#hm_2
+
+#Tarey-Town + Monster Cake
+Desc:A Parent's Love,Diff:85,URL:game8.co/games/LoZ-BotW/archives/301852#hm_2
+
+#Tarey-Town +  Kill Guardians
+Desc:Hobbies of the Rich,Diff:80,URL:game8.co/games/LoZ-BotW/archives/304802#hm_2
+
+
+
+
+
+
+###Unused
+
+#My Hero - Collect and show the master sword
+#The Royal White Stallion - Get Zelda's horse
+#Koko's cooking chain - Raw meat + Swift carrot + Course bee honey + Goat butter
+#Misko, the Great Bandit - Get the secret treasure south of the stables
+#Playtime with Cottla - play tag (not hide n seek) in Kakariko
+#The Priceless Maracas - Get Hestu's maracas
+#Wild Horses - tame a horse and bring it back to the dueling stables
+#Hylian Homeowner - get a house + furnish it
+#Hunt for the Giant Horse - Get Ganon's horse
+#A Gift from the Monks - All 120 shrines
+#Leviathan Bones - Take pictures of all 3 leviathans
+
+
+
+
+
 
