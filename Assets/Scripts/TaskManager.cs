@@ -152,6 +152,57 @@ public class TaskManager : MonoBehaviour {
 
     }
 
+    //Returns an error string if there are any issues
+    public string SplitEncodedLine(string sEncodedLine, out List<System.Tuple<string, string>> lstSplit) {
+
+        lstSplit = new List<System.Tuple<string, string>>();
+
+        string sError = "";
+
+        string sLabel = "";
+        string sValue = "";
+        bool bFinishedLabel = false;
+
+        for (int i=0; i<sEncodedLine.Length; i++) {
+
+            switch (sEncodedLine[i]) {
+
+                case '\\':
+                    //Skip whatever the next character is
+                    i++;
+                    break;
+                case ':':
+                    if(sLabel == "") {
+                        return "Cannot have an empty field label";
+                    }
+                    bFinishedLabel = true;
+                    break;
+
+                case ',':
+                    if(bFinishedLabel == false) {
+                        return "A field's label and value must be separated by a ':'";
+                    }
+                    if(sValue == "") {
+                        return "Cannot have an empty field value";
+                    }
+                    lstSplit.Add(new System.Tuple<string, string>(sLabel, sValue));
+                    sLabel = "";
+                    sValue = "";
+                    bFinishedLabel = false;
+                    break;
+
+
+                    
+
+            }
+
+
+
+        }
+
+        return "";
+    }
+
     public void LoadAllPossibleTasks() {
 
         if(sTaskFileName == sLoadedTasks) {
@@ -186,7 +237,7 @@ public class TaskManager : MonoBehaviour {
             //Desc:<Description> (Required - do this first)
             //Value:<int>-<int> (If using a parameter, provide a range of values it can take)
             //Diff:<int> or Diff:<int>-<int> (Required - use either a fixed value or a range of difficulties)
-            //Max-count:<int> (Define how many times this task can appear on the card)
+            //Max-count:<int> (Define how many times that variations of this task can appear on the card)
             //Min-delta:<int> (The minimum difference in value needed between this task and others of the same type)
 
             //Any unspecified optional fields will try to take on a reasonable value

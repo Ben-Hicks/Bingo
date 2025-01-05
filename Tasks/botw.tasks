@@ -28,7 +28,7 @@ Desc:40 Shock Arrows,Diff:37
 Desc:30 Bomb Arrows,Diff:35
 Desc:Spring-Loaded Hammer,Diff:25
 Desc:{0} Identical Equipment in Inventory,Value:3-6,Diff:8-37
-Desc:1 Ice, 1 Fire, and 1 Electric weapon,Diff:48
+Desc:1 Ice\, 1 Fire\, and 1 Electric weapon,Diff:48
 
 #Equipment
 Desc:Bokoblin Mask,Diff:43
@@ -116,7 +116,7 @@ Desc:{0} Mammals in Compendium,Value:12-19,Diff:15-48
 #Minigames
 Desc:Bowl a Strike in Bowling Minigame,Diff:25
 Desc:Complete Super Gut Check Challenge,Diff:25
-Desc:Under 1:50 in Selmie's Advanced Course,Diff:46
+Desc:Under 1\:50 in Selmie's Advanced Course,Diff:46
 Desc:Extravagant Bridle,Diff:33
 Desc:{0} Rewards from unique Minigames,Value:3-7,Diff:30-60
 
@@ -154,7 +154,7 @@ Desc:{0} Lanayru Side Quests,Value:3-9,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/
 Desc:{0} Tabantha Side Quests,Value:3-5,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_15
 Desc:{0} Wasteland Side Quests,Value:3-12,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_16
 Desc:{0} Woodland Side Quests,Value:2-5,Diff:XXX-XXX,URL:game8.co/games/LoZ-BotW/archives/292467#hm_17
-...
+###...
 
 
 ###Easy

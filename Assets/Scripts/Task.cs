@@ -132,7 +132,7 @@ public class Task : MonoBehaviour {
         } else if(Input.GetMouseButtonUp(1)) {
             //Right click
 
-            DecrementProgress();
+            OnRightClickTask();
         }
 
     }
